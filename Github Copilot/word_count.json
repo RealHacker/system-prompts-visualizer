@@ -1,0 +1,16 @@
+{
+  "files": {
+    "Prompt.txt": {
+      "words": 2923,
+      "lines": 404
+    },
+    "gpt-5.txt": {
+      "words": 3926,
+      "lines": 233
+    }
+  },
+  "total": {
+    "words": 6849,
+    "lines": 637
+  }
+}

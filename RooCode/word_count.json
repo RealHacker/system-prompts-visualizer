@@ -1,0 +1,110 @@
+{
+  "total_words": 6370,
+  "sections": [
+    {
+      "name": "Creating an MCP Server",
+      "words": 2837,
+      "percentage": 44.5
+    },
+    {
+      "name": "Tool Use Guidelines",
+      "words": 460,
+      "percentage": 7.2
+    },
+    {
+      "name": "Introduction",
+      "words": 448,
+      "percentage": 7.0
+    },
+    {
+      "name": "apply_diff",
+      "words": 320,
+      "percentage": 5.0
+    },
+    {
+      "name": "attempt_completion",
+      "words": 315,
+      "percentage": 4.9
+    },
+    {
+      "name": "read_file",
+      "words": 277,
+      "percentage": 4.3
+    },
+    {
+      "name": "execute_command",
+      "words": 224,
+      "percentage": 3.5
+    },
+    {
+      "name": "write_to_file",
+      "words": 212,
+      "percentage": 3.3
+    },
+    {
+      "name": "ask_followup_question",
+      "words": 210,
+      "percentage": 3.3
+    },
+    {
+      "name": "search_and_replace",
+      "words": 196,
+      "percentage": 3.1
+    },
+    {
+      "name": "list_files",
+      "words": 136,
+      "percentage": 2.1
+    },
+    {
+      "name": "search_files",
+      "words": 127,
+      "percentage": 2.0
+    },
+    {
+      "name": "list_code_definition_names",
+      "words": 120,
+      "percentage": 1.9
+    },
+    {
+      "name": "use_mcp_tool",
+      "words": 93,
+      "percentage": 1.5
+    },
+    {
+      "name": "new_task",
+      "words": 89,
+      "percentage": 1.4
+    },
+    {
+      "name": "switch_mode",
+      "words": 84,
+      "percentage": 1.3
+    },
+    {
+      "name": "access_mcp_resource",
+      "words": 75,
+      "percentage": 1.2
+    },
+    {
+      "name": "Tool Use Formatting",
+      "words": 56,
+      "percentage": 0.9
+    },
+    {
+      "name": "fetch_instructions",
+      "words": 34,
+      "percentage": 0.5
+    },
+    {
+      "name": "Connected MCP Servers",
+      "words": 29,
+      "percentage": 0.5
+    },
+    {
+      "name": "Rules from c:\\Projects\\JustGains-Admin\\.roo\\rules-code\\rules.md:",
+      "words": 28,
+      "percentage": 0.4
+    }
+  ]
+}

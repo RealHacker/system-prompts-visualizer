@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeBuddy System Prompt Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>CodeBuddy</h1>
+                <p>System Prompt Visualization</p>
+            </div>
+            
+            <div class="stats-card">
+                <h3>Overview Stats</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Total Words:</span>
+                    <span class="stat-value" id="total-words">5,906</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Tools:</span>
+                    <span class="stat-value" id="total-tools">18</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Format:</span>
+                    <span class="stat-value" id="format-type">Mixed (XML/Text)</span>
+                </div>
+            </div>
+            
+            <nav class="navigation">
+                <ul>
+                    <li><a href="#overview" class="nav-link active"><i class="fas fa-home"></i> Overview</a></li>
+                    <li><a href="#agent-workflow" class="nav-link"><i class="fas fa-project-diagram"></i> Agentic Workflow</a></li>
+                    <li><a href="#tools" class="nav-link"><i class="fas fa-tools"></i> Tools (<span id="tools-count">18</span>)</a></li>
+                    <li><a href="#modes" class="nav-link"><i class="fas fa-exchange-alt"></i> Modes & Workflows</a></li>
+                    <li><a href="#rules" class="nav-link"><i class="fas fa-ruler"></i> Rules</a></li>
+                    <li><a href="#context" class="nav-link"><i class="fas fa-memory"></i> Context Management</a></li>
+                    <li><a href="#coding-standards" class="nav-link"><i class="fas fa-code"></i> Coding Standards</a></li>
+                    <li><a href="#other-info" class="nav-link"><i class="fas fa-info-circle"></i> Other Information</a></li>
+                </ul>
+            </nav>
+            
+            <div class="file-info">
+                <h3>Source Files</h3>
+                <div class="file-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Chat Prompt.txt</span>
+                    <span class="file-size">226 words</span>
+                </div>
+                <div class="file-item">
+                    <i class="fas fa-file-code"></i>
+                    <span>Craft Prompt.txt</span>
+                    <span class="file-size">5,680 words</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1>CodeBuddy System Prompt Analysis</h1>
+                <p>Detailed breakdown of the CodeBuddy AI agent system prompt</p>
+            </div>
+            
+            <!-- Overview Section -->
+            <section id="overview" class="content-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-home"></i> Overview</h2>
+                </div>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Agent Role</h3>
+                        <p>CodeBuddy is a highly skilled software engineer with extensive knowledge in many programming languages, frameworks, design patterns, and best practices.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>System Prompt Format</h3>
+                        <p>The system prompt uses a mixed format combining plain text with XML-style tool definitions and structured sections.</p>
+                        <div class="tag-container">
+                            <span class="tag">XML</span>
+                            <span class="tag">Plain Text</span>
+                            <span class="tag">Structured</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Word Count</h3>
+                        <div class="stat-large">
+                            <span class="number">5,906</span>
+                            <span class="label">Total Words</span>
+                        </div>
+                        <div class="stat-breakdown">
+                            <div class="stat-item-small">
+                                <span class="label">Chat Prompt</span>
+                                <span class="value">226</span>
+                            </div>
+                            <div class="stat-item-small">
+                                <span class="label">Craft Prompt</span>
+                                <span class="value">5,680</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Tools Available</h3>
+                        <div class="stat-large">
+                            <span class="number">18</span>
+                            <span class="label">Tools</span>
+                        </div>
+                        <p>Primary tools for file operations, command execution, and user interaction.</p>
+                    </div>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>Key Characteristics</h3>
+                    <ul class="characteristics-list">
+                        <li>Uses XML-style formatting for tool definitions and usage examples</li>
+                        <li>Distinct modes: Chat Mode and Craft Mode with different capabilities</li>
+                        <li>Extensive tool set for file operations, code editing, and system commands</li>
+                        <li>Strong emphasis on iterative, step-by-step problem solving</li>
+                        <li>Detailed rules and guidelines for behavior and response formatting</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Agentic Workflow Section -->
+            <section id="agent-workflow" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-project-diagram"></i> Agentic Workflow</h2>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>Step-by-Step Process</h3>
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Task Analysis</h4>
+                                <p>Analyze the user's task and set clear, achievable goals to accomplish it. Prioritize these goals in a logical order.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Tool Selection</h4>
+                                <p>Choose the most appropriate tool based on the task and tool descriptions provided. Assess if additional information is needed.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Iterative Execution</h4>
+                                <p>Use one tool at a time per message to accomplish the task iteratively, with each tool use informed by the previous result.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Verification & Adaptation</h4>
+                                <p>Confirm the success of each step before proceeding. Address any issues immediately and adapt approach based on new information.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Completion</h4>
+                                <p>Once the task is completed, use the attempt_completion tool to present the result to the user.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>Tool Use Guidelines</h3>
+                    <ol class="ordered-list">
+                        <li>Choose the most appropriate tool based on the task and the tool descriptions provided.</li>
+                        <li>If multiple actions are needed, use one tool at a time per message to accomplish the task iteratively.</li>
+                        <li>Formulate your tool use using the XML format specified for each tool.</li>
+                        <li>Place the introduction and reason for using tools at the beginning, and the XML content at the end.</li>
+                        <li>After each tool use, wait for the user's response which provides necessary information to continue.</li>
+                    </ol>
+                </div>
+            </section>
+            
+            <!-- Tools Section -->
+            <section id="tools" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tools"></i> Tools (<span id="tools-count-header">18</span>)</h2>
+                    <p>CodeBuddy has access to 18 different tools for various operations</p>
+                </div>
+                
+                <div class="tools-grid" id="tools-container">
+                    <!-- Tools will be dynamically inserted here -->
+                </div>
+            </section>
+            
+            <!-- Modes & Workflows Section -->
+            <section id="modes" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-exchange-alt"></i> Modes & Workflows</h2>
+                </div>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Main Modes</h3>
+                        <div class="mode-item">
+                            <h4>CRAFT MODE</h4>
+                            <p>Uses tools to accomplish the user's task. Once completed, uses the attempt_completion tool to present results.</p>
+                        </div>
+                        <div class="mode-item">
+                            <h4>CHAT MODE</h4>
+                            <p>Analyzes problems, creates detailed plans, and reaches consensus before implementation with the user.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Sub Modes</h3>
+                        <div class="mode-item">
+                            <h4>Plan Mode</h4>
+                            <p>Analyzes core requirements, technical architecture, interaction design, and creates a plan list for the user's task.</p>
+                        </div>
+                        <div class="mode-item">
+                            <h4>Design Mode</h4>
+                            <p>Quickly builds beautiful visual drafts. Users can close after satisfaction and use Craft Mode for final code.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>Mode Differences</h3>
+                    <div class="comparison-table">
+                        <div class="table-header">
+                            <div class="feature">Feature</div>
+                            <div class="mode">Chat Mode</div>
+                            <div class="mode">Craft Mode</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="feature">Primary Purpose</div>
+                            <div class="mode">Conversation and planning</div>
+                            <div class="mode">Task execution</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="feature">Available Tools</div>
+                            <div class="mode">All tools including chat_mode_respond</div>
+                            <div class="mode">All tools except chat_mode_respond</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="feature">Completion Method</div>
+                            <div class="mode">chat_mode_respond for conversations</div>
+                            <div class="mode">attempt_completion for task completion</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="feature">User Interaction</div>
+                            <div class="mode">Direct conversational responses</div>
+                            <div class="mode">Tool-based actions with final summary</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Rules Section -->
+            <section id="rules" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-ruler"></i> Rules</h2>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>Core Rules and Guidelines</h3>
+                    <div class="rules-list">
+                        <div class="rule-item">
+                            <div class="rule-number">1</div>
+                            <div class="rule-content">
+                                <p><strong>Response Conciseness:</strong> KEEP YOUR RESPONSE SHORT AND CLEAR, NEVER DO MORE THAN USER ASKS FOR.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="rule-item">
+                            <div class="rule-number">2</div>
+                            <div class="rule-content">
+                                <p><strong>Tool Use Guidelines:</strong> ALWAYS follow the Tool Use Guidelines strictly when using tools.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="rule-item">
+                            <div class="rule-number">3</div>
+                            <div class="rule-content">
+                                <p><strong>File Organization:</strong> Generated files always be kept separate and not mixed together.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="rule-item">
+                            <div class="rule-number">4</div>
+                            <div class="rule-content">
+                                <p><strong>Command Execution:</strong> Before using execute_command, tailor commands to the user's system environment.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="rule-item">
+                            <div class="rule-number">5</div>
+                            <div class="rule-content">
+                                <p><strong>Response Format:</strong> STRICTLY FORBIDDEN from starting messages with "Great", "Certainly", "Okay", "Sure".</p>
+                            </div>
+                        </div>
+                        
+                        <div class="rule-item">
+                            <div class="rule-number">6</div>
+                            <div class="rule-content">
+                                <p><strong>Tool Limit:</strong> The count of tools in a message must be less than 3, large content tool should be called in a single message.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>File Editing Rules</h3>
+                    <div class="rules-columns">
+                        <div class="rule-column">
+                            <h4>write_to_file</h4>
+                            <ul>
+                                <li>Create new files or overwrite entire existing files</li>
+                                <li>Provide COMPLETE intended content</li>
+                                <li>Use for initial file creation or complete restructuring</li>
+                                <li>Limit to 500 LOC maximum per file</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="rule-column">
+                            <h4>replace_in_file</h4>
+                            <ul>
+                                <li>Make targeted edits to specific parts of existing files</li>
+                                <li>Use SEARCH/REPLACE blocks with exact content matching</li>
+                                <li>Include complete lines in SEARCH blocks</li>
+                                <li>Preferred for localized changes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Context Management Section -->
+            <section id="context" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-memory"></i> Context Management</h2>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>Context Information</h3>
+                    <p>The system prompt indicates that CodeBuddy receives context information through environment_details which automatically includes:</p>
+                    
+                    <div class="context-features">
+                        <div class="feature-item">
+                            <i class="fas fa-file"></i>
+                            <div>
+                                <h4>Visible Files</h4>
+                                <p>Information about files currently visible to the user</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-folder-open"></i>
+                            <div>
+                                <h4>Open Tabs</h4>
+                                <p>Details about currently open tabs in the user's environment</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Current Time</h4>
+                                <p>Timestamp information for time-sensitive operations</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-list"></i>
+                            <div>
+                                <h4>File List</h4>
+                                <p>Contents of the current working directory</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-desktop"></i>
+                            <div>
+                                <h4>System Information</h4>
+                                <p>Operating system, architecture, and environment details</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>Context Usage Guidelines</h3>
+                    <ul class="ordered-list">
+                        <li>The environment_details is automatically included in each conversation and provides relevant project context</li>
+                        <li>Never mention environment_details to the user explicitly</li>
+                        <li>Use context information to tailor responses and tool usage to the user's specific environment</li>
+                        <li>Consider active running terminals before executing new commands</li>
+                        <li>Leverage file system information for accurate file operations</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Coding Standards Section -->
+            <section id="coding-standards" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-code"></i> Coding Standards</h2>
+                </div>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>File Organization</h3>
+                        <ul class="standards-list">
+                            <li>Generated files must be kept separate and not mixed together</li>
+                            <li>Organize code into reasonable modules to avoid files over 500 lines</li>
+                            <li>Consider separation of concerns and single responsibility principles</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Code Quality</h3>
+                        <ul class="standards-list">
+                            <li>Ensure changes are compatible with the existing codebase</li>
+                            <li>Follow project's coding standards and workflow</li>
+                            <li>Use proper syntax highlighting with language specification</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>Tool Usage Standards</h3>
+                    <div class="standards-grid">
+                        <div class="standard-item">
+                            <h4>XML Formatting</h4>
+                            <p>All tool usage must follow proper XML format with opening and closing tags for each tool and parameter.</p>
+                        </div>
+                        
+                        <div class="standard-item">
+                            <h4>Parameter Requirements</h4>
+                            <p>Clearly distinguish between required and optional parameters for each tool.</p>
+                        </div>
+                        
+                        <div class="standard-item">
+                            <h4>Usage Examples</h4>
+                            <p>Provide clear usage examples for complex tools to ensure proper implementation.</p>
+                        </div>
+                        
+                        <div class="standard-item">
+                            <h4>Error Handling</h4>
+                            <p>Address any tool execution issues immediately and adapt approach based on results.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Other Information Section -->
+            <section id="other-info" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-info-circle"></i> Other Critical Information</h2>
+                </div>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Integrations</h3>
+                        <p>CodeBuddy supports several integrations:</p>
+                        <ul class="integrations-list">
+                            <li><strong>Supabase:</strong> Backend as a Service with PostgreSQL database</li>
+                            <li><strong>CloudStudio:</strong> Deployment to remote servers</li>
+                            <li><strong>Tencent CloudBase:</strong> Database, cloud functions, storage</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>MCP Servers</h3>
+                        <p>Supports Model Context Protocol for extended capabilities:</p>
+                        <ul class="mcp-list">
+                            <li>File operations (read, write, list, move, copy)</li>
+                            <li>Directory management</li>
+                            <li>System command execution</li>
+                            <li>Resource access via URI</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card full-width">
+                    <h3>Communication Style</h3>
+                    <div class="communication-standards">
+                        <div class="standard-point">
+                            <h4>Brevity</h4>
+                            <p>BE CONCISE AND AVOID VERBOSITY. BREVITY IS CRITICAL. Minimize output tokens while maintaining helpfulness.</p>
+                        </div>
+                        
+                        <div class="standard-point">
+                            <h4>Directness</h4>
+                            <p>Answer user's requirements directly and concisely, without making inappropriate guesses or file edits.</p>
+                        </div>
+                        
+                        <div class="standard-point">
+                            <h4>Balance</h4>
+                            <p>Strike a balance between doing the right thing when asked and not surprising the user with unexpected actions.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

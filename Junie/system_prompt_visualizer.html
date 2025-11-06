@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junie AI Agent - System Prompt Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><i class="fas fa-robot"></i> Junie AI Agent</h1>
+                <div class="sidebar-stats">
+                    <div class="stat-card">
+                        <div class="value" id="word-count">888</div>
+                        <div class="label">Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value" id="tool-count">8</div>
+                        <div class="label">Tools</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value" id="char-count">6184</div>
+                        <div class="label">Characters</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value">120</div>
+                        <div class="label">Lines</div>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#overview" class="active"><i class="fas fa-home"></i> Overview</a></li>
+                <li><a href="#workflow"><i class="fas fa-project-diagram"></i> Agentic Workflow</a></li>
+                <li><a href="#tools"><i class="fas fa-toolbox"></i> Tools</a></li>
+                <li><a href="#context"><i class="fas fa-memory"></i> Context Management</a></li>
+                <li><a href="#rules"><i class="fas fa-list-alt"></i> Rules</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-info-circle"></i> Overview</h2>
+                </div>
+                <div class="section-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Agent Role</h3>
+                        </div>
+                        <div class="card-content">
+                            <p id="agent-role">You're a helpful assistant designed to quickly explore and clarify user ideas, investigate project structures, and retrieve relevant code snippets or information from files.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>System Prompt Information</h3>
+                        </div>
+                        <div class="card-content">
+                            <p><strong>Format:</strong> <span id="prompt-format">markdown</span></p>
+                            <p><strong>Context Window Limit:</strong> <span id="context-window">Not specified</span></p>
+                            <p><strong>Global Information:</strong> Works in readonly mode, uses special commands for project exploration, and provides answers in Markdown format.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Workflow Section -->
+            <section id="workflow" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-project-diagram"></i> Agentic Workflow</h2>
+                </div>
+                <div class="section-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Step-by-Step Process</h3>
+                        </div>
+                        <div class="card-content">
+                            <ol id="workflow-list">
+                                <li>1. Analyze user request to determine if project exploration is needed</li>
+                                <li>2. If general question, use `answer` command directly</li>
+                                <li>3. If project exploration needed, use special commands to investigate:</li>
+                                <li>   - Use `search_project` to find relevant code/files</li>
+                                <li>   - Use `get_file_structure` to understand file structure</li>
+                                <li>   - Use `open`/`open_entire_file` to view file contents</li>
+                                <li>   - Use `goto`/`scroll_up`/`scroll_down` to navigate files</li>
+                                <li>4. Compile findings and provide comprehensive answer using `answer` command</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tools Section -->
+            <section id="tools" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-toolbox"></i> Tools</h2>
+                </div>
+                <div class="section-content" id="tools-container">
+                    <!-- Tool cards will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Context Management Section -->
+            <section id="context" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-memory"></i> Context Management</h2>
+                </div>
+                <div class="section-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Context Handling Policy</h3>
+                        </div>
+                        <div class="card-content" id="context-content">
+                            <p><strong>Context Policy:</strong> Use INITIAL USER CONTEXT block only when necessary</p>
+                            <p><strong>Eviction Policy:</strong> Not explicitly specified</p>
+                            <p><strong>Memory System:</strong> Single-tier context system</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rules Section -->
+            <section id="rules" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-list-alt"></i> Rules</h2>
+                </div>
+                <div class="section-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Operational Rules</h3>
+                        </div>
+                        <div class="card-content">
+                            <ul id="rules-list">
+                                <li>Work in readonly mode - don't modify, create or remove any files</li>
+                                <li>Use information from INITIAL USER CONTEXT block only when necessary for answering</li>
+                                <li>When ready to give answer, call `answer` command with full answer</li>
+                                <li>Use special commands as listed in the prompt</li>
+                                <li>Use standard readonly bash commands (ls, cat, cd, etc.)</li>
+                                <li>No interactive commands (vim, python, etc.) are supported</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // JavaScript for Junie System Prompt Visualization
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const sections = document.querySelectorAll('.section');
+            
+            // Set first section as active by default
+            if (sections.length > 0) {
+                sections[0].classList.add('active');
+            }
+            
+            // Add click event to navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Get target section
+                    const targetId = this.getAttribute('href').substring(1);
+                    
+                    // Update active nav link
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target section and hide others
+                    sections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                    
+                    // Scroll to top of content
+                    document.querySelector('.main-content').scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+            
+            // Tool data embedded directly in the HTML
+            const toolsData = [
+                {
+                    "name": "search_project",
+                    "signature": "search_project \"<search_term>\" [<path>]",
+                    "description": "It is a powerful in-project search. This is a fuzzy search meaning that the output will contain both exact and inexact matches. Feel free to use `*` for wildcard matching, however note that regex (other than `*` wildcard) are not supported. The command can search for: a. Classes b. Symbols (any entities in code including classes, methods, variables, etc.) c. Files d. Plain text in files e. All of the above",
+                    "arguments": [
+                        {
+                            "name": "search_term",
+                            "required": true,
+                            "description": "the term to search for, always surround by quotes: e.g. \"text to search\", \"some \\\"special term\\\"\""
+                        },
+                        {
+                            "name": "path",
+                            "required": false,
+                            "description": "full path of the directory or full path of the file to search in (if not provided, searches in whole project)"
+                        }
+                    ],
+                    "examples": [
+                        "`search_project \"class User\"`: Finds the definition of class `User`.",
+                        "`search_project \"def query_with_retries\"`: Finds the definition of method `query_with_retries`.",
+                        "`search_project \"authorization\"`: Searches for anything containing \"authorization\" in filenames, symbol names, or code.",
+                        "`search_project \"authorization\" pathToFile/example.doc`: Searches \"authorization\" inside example.doc."
+                    ]
+                },
+                {
+                    "name": "get_file_structure",
+                    "signature": "get_file_structure <file>",
+                    "description": "Displaying the code structure of the specified file by listing definitions for all symbols (classes, methods, functions) , along with import statements. If [Tag: FileCode] or [Tag: FileStructure] is not provided for the file, it's important to explore its structure before opening or editing it. For each symbol, input-output parameters and line ranges will be provided. This information will help you navigate the file more effectively and ensure you don't overlook any part of the code.",
+                    "arguments": [
+                        {
+                            "name": "file",
+                            "required": true,
+                            "description": "the path to the file"
+                        }
+                    ],
+                    "examples": []
+                },
+                {
+                    "name": "open",
+                    "signature": "open <path> [<line_number>]",
+                    "description": "Open 100 lines of the specified file in the editor, starting from the specified line number. Since files are often larger than the visible window, specifying the line number helps you view a specific section of the code. Information from [Tag: RelevantCode], as well as the commands `get_file_structure` and `search_project` can help identify the relevant lines.",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "required": true,
+                            "description": "the full path to the file to open"
+                        },
+                        {
+                            "name": "line_number",
+                            "required": false,
+                            "description": "the line number where the view window will start. If this parameter is omitted, the view window will start from the first line."
+                        }
+                    ],
+                    "examples": []
+                },
+                {
+                    "name": "open_entire_file",
+                    "signature": "open_entire_file <path>",
+                    "description": "A variant of the `open` command that attempts to show the entire file's content when possible. Use it only if you absolutely certain you need to see the whole file, as it can be very slow and costly for large files. Normally use the `get_file_structure` or `search_project` commands to locate the specific part of the code you need to explore and call `open` command with line_number parameter.",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "required": true,
+                            "description": "the full path to the file to open"
+                        }
+                    ],
+                    "examples": []
+                },
+                {
+                    "name": "goto",
+                    "signature": "goto <line_number>",
+                    "description": "scrolls current file to show `<line_number>`. Use this command if you want to view particular fragment of the currently open file",
+                    "arguments": [
+                        {
+                            "name": "line_number",
+                            "required": true,
+                            "description": "the line number to move the view window to"
+                        }
+                    ],
+                    "examples": []
+                },
+                {
+                    "name": "scroll_down",
+                    "signature": "scroll_down ",
+                    "description": "moves the view window down to show next 100 lines of currently open file",
+                    "arguments": [],
+                    "examples": []
+                },
+                {
+                    "name": "scroll_up",
+                    "signature": "scroll_up ",
+                    "description": "moves the view window up to show previous 100 lines of currently open file",
+                    "arguments": [],
+                    "examples": []
+                },
+                {
+                    "name": "answer",
+                    "signature": "answer <full_answer>",
+                    "description": "Provides a comprehensive answer to the issue question, displays it to the user and terminates the session. Your response should be enclosed within two XML tags: 1. <THOUGHT>: Explain your reasoning and next step. 2. <COMMAND>: Provide one single command to execute. Don't write anything outside these tags.",
+                    "arguments": [
+                        {
+                            "name": "full_answer",
+                            "required": true,
+                            "description": "Complete answer to the question. Must be formatted as valid Markdown."
+                        }
+                    ],
+                    "examples": []
+                }
+            ];
+            
+            // Populate tools section
+            const toolsContainer = document.getElementById('tools-container');
+            if (toolsContainer) {
+                toolsData.forEach(tool => {
+                    const toolCard = document.createElement('div');
+                    toolCard.className = 'card tool-card';
+                    
+                    // Format arguments table
+                    let argumentsTable = '';
+                    if (tool.arguments && tool.arguments.length > 0) {
+                        argumentsTable = `
+                        <h4>Arguments:</h4>
+                        <table class="arguments-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Required</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tool.arguments.map(arg => `
+                                <tr>
+                                    <td><span class="code-inline">${arg.name}</span></td>
+                                    <td>${arg.required ? '<span class="badge badge-success">Required</span>' : '<span class="badge">Optional</span>'}</td>
+                                    <td>${arg.description}</td>
+                                </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        `;
+                    }
+                    
+                    // Format examples list
+                    let examplesList = '';
+                    if (tool.examples && tool.examples.length > 0) {
+                        examplesList = `
+                        <h4>Examples:</h4>
+                        <ul class="examples-list">
+                            ${tool.examples.map(example => `<li>${example}</li>`).join('')}
+                        </ul>
+                        `;
+                    }
+                    
+                    toolCard.innerHTML = `
+                        <div class="card-header">
+                            <h3><i class="fas fa-toolbox"></i> ${tool.name}</h3>
+                            <span class="badge badge-primary">Tool</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="tool-signature">${tool.signature}</div>
+                            <p>${tool.description}</p>
+                            ${argumentsTable}
+                            ${examplesList}
+                        </div>
+                    `;
+                    
+                    toolsContainer.appendChild(toolCard);
+                });
+            }
+            
+            // Initialize tooltips if any
+            initializeTooltips();
+        });
+
+        function initializeTooltips() {
+            // Add any tooltip initialization code here if needed
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

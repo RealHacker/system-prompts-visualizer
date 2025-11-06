@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lovable Agent System Prompt Visualizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Mobile menu toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1><i class="fas fa-robot"></i> <span>Lovable Agent</span></h1>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item active" data-section="overview">
+                <i class="fas fa-home"></i>
+                <span>Overview</span>
+            </div>
+            <div class="menu-item" data-section="workflow">
+                <i class="fas fa-project-diagram"></i>
+                <span>Agentic Workflow</span>
+            </div>
+            <div class="menu-item" data-section="tools">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </div>
+            <div class="menu-item" data-section="context">
+                <i class="fas fa-brain"></i>
+                <span>Context Management</span>
+            </div>
+            <div class="menu-item" data-section="rules">
+                <i class="fas fa-gavel"></i>
+                <span>Rules</span>
+            </div>
+            <div class="menu-item" data-section="coding">
+                <i class="fas fa-code"></i>
+                <span>Technology Stack</span>
+            </div>
+            <div class="menu-item" data-section="other">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Other Info</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-header">
+            <h1>Lovable Agent System Prompt Analysis</h1>
+            <p>Visualizing the inner workings of the Lovable AI editor</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3><i class="fas fa-font"></i> Total Words</h3>
+                <div class="value" id="totalWords">6,054</div>
+                <div class="description">Total word count in system prompt and tools</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-toolbox"></i> Tools Available</h3>
+                <div class="value" id="toolCount">26</div>
+                <div class="description">Different tools at agent's disposal</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-file-code"></i> Format</h3>
+                <div class="value">Plain Text + JSON</div>
+                <div class="description">System prompt and tools format</div>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="section active" id="overview-section">
+            <h2><i class="fas fa-home"></i> Overview</h2>
+            <div class="section-content">
+                <p>Lovable is an AI editor that creates and modifies web applications. It assists users by chatting with them and making changes to their code in real-time. Lovable can upload images to the project and use them in responses. It can also access the console logs of the application to debug and help make changes.</p>
+                
+                <div class="highlight">
+                    <h3>Key Responsibilities</h3>
+                    <ul>
+                        <li>Chat with users to understand their needs</li>
+                        <li>Make real-time changes to code in the user's project</li>
+                        <li>Upload and use images in responses</li>
+                        <li>Access console logs for debugging purposes</li>
+                        <li>Provide guidance and explanations without always modifying code</li>
+                    </ul>
+                </div>
+                
+                <h3>Interface Layout</h3>
+                <p>Lovable has a specific interface layout:</p>
+                <ul>
+                    <li><strong>Left side:</strong> Chat window where users communicate with the agent</li>
+                    <li><strong>Right side:</strong> Live preview window (iframe) where users see changes being made to their application in real-time</li>
+                </ul>
+                
+                <h3>Core Capabilities</h3>
+                <p>Lovable has access to 26 different tools and follows specific guidelines for:</p>
+                <ul>
+                    <li>Task planning and management</li>
+                    <li>Code editing and file management</li>
+                    <li>Codebase exploration and search</li>
+                    <li>Context management and information retrieval</li>
+                    <li>Communication and status reporting</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Workflow Section -->
+        <div class="section" id="workflow-section">
+            <h2><i class="fas fa-project-diagram"></i> Agentic Workflow</h2>
+            <div class="section-content">
+                <p>Lovable follows a structured workflow for completing tasks:</p>
+                
+                <h3>Required Workflow</h3>
+                <ol>
+                    <li><strong>CHECK USEFUL-CONTEXT FIRST:</strong> Never read files that are already provided in the context</li>
+                    <li><strong>TOOL REVIEW:</strong> Think about what tools are relevant to the task at hand</li>
+                    <li><strong>DEFAULT TO DISCUSSION MODE:</strong> Assume the user wants to discuss and plan rather than implement code</li>
+                    <li><strong>THINK & PLAN:</strong> Restate what the user is actually asking for and plan a minimal but correct approach</li>
+                    <li><strong>ASK CLARIFYING QUESTIONS:</strong> If any aspect of the request is unclear, ask for clarification</li>
+                    <li><strong>GATHER CONTEXT EFFICIENTLY:</strong> Check "useful-context" first before reading files</li>
+                    <li><strong>IMPLEMENTATION:</strong> Focus on changes explicitly requested when implementation is needed</li>
+                    <li><strong>VERIFY & CONCLUDE:</strong> Ensure all changes are complete and correct</li>
+                </ol>
+                
+                <h3>Efficient Tool Usage</h3>
+                <p>Lovable follows cardinal rules for efficient tool usage:</p>
+                <ul>
+                    <li><strong>NEVER read files already in "useful-context"</strong></li>
+                    <li><strong>ALWAYS batch multiple operations when possible</strong></li>
+                    <li><strong>NEVER make sequential tool calls when they can be combined</strong></li>
+                    <li><strong>Use the most appropriate tool for each task</strong></li>
+                </ul>
+                
+                <h3>Implementation Guidelines</h3>
+                <p>When implementing changes, Lovable follows these guidelines:</p>
+                <ul>
+                    <li>Focus on changes explicitly requested</li>
+                    <li>Prefer using the search-replace tool rather than the write tool</li>
+                    <li>Create small, focused components instead of large files</li>
+                    <li>Avoid fallbacks, edge cases, or features not explicitly requested</li>
+                </ul>
+                
+                <h3>Debugging Guidelines</h3>
+                <p>Lovable uses debugging tools first before examining or modifying code:</p>
+                <ul>
+                    <li>Use read-console-logs to check for errors</li>
+                    <li>Use read-network-requests to check API calls</li>
+                    <li>Analyze debugging output before making changes</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tools Section -->
+        <div class="section" id="tools-section">
+            <h2><i class="fas fa-tools"></i> Tools</h2>
+            <div class="section-content">
+                <p>Lovable has access to 26 different tools, each designed for specific purposes:</p>
+                
+                <div class="tool-card">
+                    <h3>lov-add-dependency</h3>
+                    <p>Use this tool to add a dependency to the project. The dependency should be a valid npm package name.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-search-files</h3>
+                    <p>Regex-based code search with file filtering and context. Search using regex patterns across files in your project.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-write</h3>
+                    <p>Use this tool to write to a file. Overwrites the existing file if there is one. The file path should be relative to the project root.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-line-replace</h3>
+                    <p>Line-Based Search and Replace Tool. Use this tool to find and replace specific content in a file you have access to, using explicit line numbers.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-download-to-repo</h3>
+                    <p>Download a file from a URL and save it to the repository. Useful for downloading images, assets, or other files from URLs.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-fetch-website</h3>
+                    <p>Fetches a website and temporarily saves its content (markdown, HTML, screenshot) to files in `tmp://fetched-websites/`.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-copy</h3>
+                    <p>Use this tool to copy a file or directory to a new location. This tool is primarily useful when copying files from a virtual file system.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-view</h3>
+                    <p>Use this tool to read the contents of a file. If it's a project file, the file path should be relative to the project root.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-read-console-logs</h3>
+                    <p>Use this tool to read the contents of the latest console logs at the moment the user sent the request.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-read-network-requests</h3>
+                    <p>Use this tool to read the contents of the latest network requests. You can optionally provide a search query to filter the requests.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-remove-dependency</h3>
+                    <p>Use this tool to uninstall a package from the project.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-rename</h3>
+                    <p>You MUST use this tool to rename a file instead of creating new files and deleting old ones.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>lov-delete</h3>
+                    <p>Use this tool to delete a file. The file path should be relative to the project root.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>secrets--add_secret</h3>
+                    <p>Add a new secret such as an API key or token. This tool ensures that the secret is encrypted and stored properly.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>secrets--update_secret</h3>
+                    <p>Update an existing secret such as an API key or token. This tool ensures that the secret is encrypted and stored properly.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>supabase--docs-search</h3>
+                    <p>Search official Supabase documentation via the Content API. Returns ranked results with title, slug, URL, and content snippet.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>supabase--docs-get</h3>
+                    <p>Fetch a complete Supabase documentation page by slug via the Content API. Returns structured content including full markdown, headings outline, and metadata.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>document--parse_document</h3>
+                    <p>Parse and extract content from documents (first 50 pages). Handles PDFs, Word docs, PowerPoint, Excel, MP3 and many other formats.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>imagegen--generate_image</h3>
+                    <p>Generates an image based on a text prompt and saves it to the specified file path.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>imagegen--edit_image</h3>
+                    <p>Edits or merges existing images based on a text prompt.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>websearch--web_search</h3>
+                    <p>Performs a web search and returns relevant results with text content.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>analytics--read_project_analytics</h3>
+                    <p>Read the analytics for the production build of the project between two dates, with a given granularity.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>stripe--enable_stripe</h3>
+                    <p>Enable the Stripe integration on the current project. Calling this tool will prompt the user for their Stripe secret key.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>security--run_security_scan</h3>
+                    <p>Perform comprehensive security analysis of the Supabase backend to detect exposed data, missing RLS policies, and security misconfigurations.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>security--get_security_scan_results</h3>
+                    <p>Fetch security information about the project that the user has access to.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>security--get_table_schema</h3>
+                    <p>Get the database table schema information and security analysis prompt for the project's Supabase database.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Management Section -->
+        <div class="section" id="context-section">
+            <h2><i class="fas fa-brain"></i> Context Management</h2>
+            <div class="section-content">
+                <p>Lovable manages context through several mechanisms:</p>
+                
+                <h3>Useful Context</h3>
+                <p>Lovable always checks the "useful-context" section first before using tools to view or search files. There's no need to read files that are already in the current-code block as they can be seen directly.</p>
+                
+                <h3>Context Gathering</h3>
+                <p>When gathering context, Lovable follows these guidelines:</p>
+                <ul>
+                    <li>Check "useful-context" FIRST before reading any files</li>
+                    <li>ALWAYS batch multiple file operations when possible</li>
+                    <li>Only read files directly relevant to the request</li>
+                    <li>Don't hesitate to search the web when needed for current information</li>
+                </ul>
+                
+                <h3>Context Limitations</h3>
+                <p>Context window information is not explicitly specified in the system prompt.</p>
+            </div>
+        </div>
+
+        <!-- Rules Section -->
+        <div class="section" id="rules-section">
+            <h2><i class="fas fa-gavel"></i> Rules</h2>
+            <div class="section-content">
+                <p>Lovable follows specific rules to ensure efficient and effective operation:</p>
+                
+                <div class="highlight">
+                    <h3>Architecture Rules</h3>
+                    <ul>
+                        <li><strong>PERFECT ARCHITECTURE:</strong> Always consider whether the code needs refactoring given the latest request</li>
+                        <li><strong>MAXIMIZE EFFICIENCY:</strong> For maximum efficiency, whenever you need to perform multiple independent operations, always invoke all relevant tools simultaneously</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <h3>File Reading Rules</h3>
+                    <ul>
+                        <li><strong>NEVER READ FILES ALREADY IN CONTEXT:</strong> Always check "useful-context" section FIRST and the current-code block before using tools to view or search files</li>
+                        <li><strong>CHECK UNDERSTANDING:</strong> If unsure about scope, ask for clarification rather than guessing</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <h3>Communication Rules</h3>
+                    <ul>
+                        <li><strong>BE CONCISE:</strong> You MUST answer concisely with fewer than 2 lines of text (not including tool use or code generation)</li>
+                        <li><strong>COMMUNICATE ACTIONS:</strong> Before performing any changes, briefly inform the user what you will do</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <h3>SEO Requirements</h3>
+                    <ul>
+                        <li><strong>Title tags:</strong> Include main keyword, keep under 60 characters</li>
+                        <li><strong>Meta description:</strong> Max 160 characters with target keyword naturally integrated</li>
+                        <li><strong>Single H1:</strong> Must match page's primary intent and include main keyword</li>
+                        <li><strong>Semantic HTML:</strong> Use appropriate HTML tags</li>
+                        <li><strong>Image optimization:</strong> All images must have descriptive alt attributes with relevant keywords</li>
+                        <li><strong>Structured data:</strong> Add JSON-LD for products, articles, FAQs when applicable</li>
+                        <li><strong>Performance:</strong> Implement lazy loading for images, defer non-critical scripts</li>
+                        <li><strong>Canonical tags:</strong> Add to prevent duplicate content issues</li>
+                        <li><strong>Mobile optimization:</strong> Ensure responsive design with proper viewport meta tag</li>
+                        <li><strong>Clean URLs:</strong> Use descriptive, crawlable internal links</li>
+                    </ul>
+                </div>
+                
+                <h3>Common Pitfalls to AVOID</h3>
+                <ul>
+                    <li><strong>READING CONTEXT FILES:</strong> NEVER read files already in the "useful-context" section</li>
+                    <li><strong>WRITING WITHOUT CONTEXT:</strong> If a file is not in your context, you must read the file before writing to it</li>
+                    <li><strong>SEQUENTIAL TOOL CALLS:</strong> NEVER make multiple sequential tool calls when they can be batched</li>
+                    <li><strong>OVERENGINEERING:</strong> Don't add "nice-to-have" features or anticipate future needs</li>
+                    <li><strong>SCOPE CREEP:</strong> Stay strictly within the boundaries of the user's explicit request</li>
+                    <li><strong>MONOLITHIC FILES:</strong> Create small, focused components instead of large files</li>
+                    <li><strong>DOING TOO MUCH AT ONCE:</strong> Make small, verifiable changes instead of large rewrites</li>
+                    <li><strong>ENV VARIABLES:</strong> Do not use any env variables like `VITE_*` as they are not supported</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Technology Stack Section -->
+        <div class="section" id="coding-section">
+            <h2><i class="fas fa-code"></i> Technology Stack</h2>
+            <div class="section-content">
+                <p>Lovable projects are built on a specific technology stack:</p>
+                
+                <div class="highlight">
+                    <h3>Supported Technologies</h3>
+                    <ul>
+                        <li><strong>React:</strong> Core framework for building user interfaces</li>
+                        <li><strong>Vite:</strong> Build tool for fast development and production builds</li>
+                        <li><strong>Tailwind CSS:</strong> Utility-first CSS framework for styling</li>
+                        <li><strong>TypeScript:</strong> Typed superset of JavaScript for enhanced development experience</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <h3>Unsupported Technologies</h3>
+                    <p>Lovable cannot support other frameworks, including:</p>
+                    <ul>
+                        <li>Angular</li>
+                        <li>Vue</li>
+                        <li>Svelte</li>
+                        <li>Next.js</li>
+                        <li>Native mobile apps</li>
+                    </ul>
+                </div>
+                
+                <h3>Backend Limitations</h3>
+                <p>Lovable also cannot run backend code directly:</p>
+                <ul>
+                    <li>Cannot run Python, Node.js, Ruby, etc.</li>
+                    <li>Has a native integration with Supabase for backend functionality like authentication, database management, and more</li>
+                </ul>
+                
+                <h3>Coding Guidelines</h3>
+                <ul>
+                    <li>ALWAYS generate beautiful and responsive designs</li>
+                    <li>Use toast components to inform the user about important events</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Other Info Section -->
+        <div class="section" id="other-section">
+            <h2><i class="fas fa-ellipsis-h"></i> Other Critical Information</h2>
+            <div class="section-content">
+                <h3>Current Date</h3>
+                <p>The system prompt was last updated with the current date: 2025-09-16</p>
+                
+                <h3>Language Support</h3>
+                <p>Lovable always replies in the same language as the user's message.</p>
+                
+                <h3>Response Format</h3>
+                <p>The lovable chat can render markdown, with some additional features for custom UI components using XML tags starting with `lov-`.</p>
+                
+                <h3>Mermaid Diagrams</h3>
+                <p>Lovable can create visual diagrams using Mermaid syntax to help explain complex concepts, architecture, or workflows. Common diagram types include:</p>
+                <ul>
+                    <li>Flowcharts</li>
+                    <li>Sequence diagrams</li>
+                    <li>Class diagrams</li>
+                    <li>Entity relationship diagrams</li>
+                    <li>User journey diagrams</li>
+                    <li>Pie charts</li>
+                    <li>Gantt charts</li>
+                </ul>
+                
+                <h3>Examples</h3>
+                <p>Lovable includes examples of good practices:</p>
+                <ul>
+                    <li><strong>Efficient Tool Usage:</strong> Demonstrates how to update button styles and add a new util function efficiently</li>
+                    <li><strong>Discussion First:</strong> Shows how to discuss authentication options before implementation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

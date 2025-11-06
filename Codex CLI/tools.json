@@ -1,0 +1,29 @@
+[
+  {
+    "name": "explanation",
+    "description": "`explanation` of the rationale when doing so."
+  },
+  {
+    "name": "rm",
+    "description": "`rm` or `git reset` that the user did not explicitly ask for - (For all of these, you should weigh alternative paths that do not require approval.)"
+  },
+  {
+    "name": "status",
+    "description": "`status` for each step (`pending`, `in_progress`, or `completed`)."
+  },
+  {
+    "name": "apply_patch",
+    "description": "Apply file-oriented diffs using a stripped-down diff format. Used to create, update, or delete files with precise line-level control.",
+    "usage": "Used to edit files with headers like 'Add File', 'Update File', or 'Delete File' followed by hunks for line modifications."
+  },
+  {
+    "name": "update_plan",
+    "description": "Maintain step-by-step plans with status tracking for complex tasks.",
+    "usage": "Create plans with short steps and track status (pending, in_progress, completed) to make work clearer and collaborative."
+  },
+  {
+    "name": "shell",
+    "description": "Execute terminal commands with specific guidelines for efficiency and safety.",
+    "usage": "Run commands in the terminal with preferences for rg/grep for searching and chunked file reading."
+  }
+]

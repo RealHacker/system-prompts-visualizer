@@ -1,0 +1,23 @@
+{
+  "total_words": 2901,
+  "section_word_counts": {
+    "Overview": 23,
+    "System Constraints": 447,
+    "Database Instructions": 990,
+    "Code Formatting": 6,
+    "Message Formatting": 19,
+    "Chain of Thought": 116,
+    "Artifact Info": 754,
+    "Examples": 387
+  },
+  "sections": [
+    "Overview",
+    "System Constraints",
+    "Database Instructions",
+    "Code Formatting",
+    "Message Formatting",
+    "Chain of Thought",
+    "Artifact Info",
+    "Examples"
+  ]
+}

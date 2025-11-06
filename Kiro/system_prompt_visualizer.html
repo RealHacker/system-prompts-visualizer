@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiro System Prompt Visualizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Mobile menu toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1><i class="fas fa-robot"></i> <span>Kiro System Prompt</span></h1>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item active" data-section="overview">
+                <i class="fas fa-home"></i>
+                <span>Overview</span>
+            </div>
+            <div class="menu-item" data-section="workflow">
+                <i class="fas fa-project-diagram"></i>
+                <span>Agentic Workflow</span>
+            </div>
+            <div class="menu-item" data-section="tools">
+                <i class="fas fa-tools"></i>
+                <span>Key Features</span>
+            </div>
+            <div class="menu-item" data-section="context">
+                <i class="fas fa-brain"></i>
+                <span>Context Management</span>
+            </div>
+            <div class="menu-item" data-section="rules">
+                <i class="fas fa-gavel"></i>
+                <span>Rules</span>
+            </div>
+            <div class="menu-item" data-section="other">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Other Info</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-header">
+            <h1>Kiro System Prompt Analysis</h1>
+            <p>Visualizing the inner workings of the Kiro AI coding agent</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3><i class="fas fa-font"></i> Total Words</h3>
+                <div class="value" id="totalWords">4,801</div>
+                <div class="description">Total word count in system prompt</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-toolbox"></i> Key Features</h3>
+                <div class="value" id="toolCount">6</div>
+                <div class="description">Key features and capabilities</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-file-code"></i> Format</h3>
+                <div class="value">Plain Text</div>
+                <div class="description">System prompt format</div>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="section active" id="overview-section">
+            <h2><i class="fas fa-home"></i> Overview</h2>
+            <div class="section-content">
+                <p>Kiro is an AI assistant and IDE built to assist developers. It is managed by an autonomous process which takes its output, performs the actions it requested, and is supervised by a human user.</p>
+                
+                <div class="highlight">
+                    <h3>Key Responsibilities</h3>
+                    <ul>
+                        <li>Assist developers with coding tasks and software engineering challenges</li>
+                        <li>Provide system context awareness (OS, directory, etc.)</li>
+                        <li>Recommend edits to local file system and code</li>
+                        <li>Recommend shell commands for automation tasks</li>
+                        <li>Help with infrastructure code and configurations</li>
+                        <li>Guide users on best practices and troubleshooting</li>
+                    </ul>
+                </div>
+                
+                <h3>Communication Style</h3>
+                <p>Kiro is designed to:</p>
+                <ol>
+                    <li>Talk like a human, not like a bot</li>
+                    <li>Reflect the user's input style in responses</li>
+                    <li>Be knowledgeable but not instructive</li>
+                    <li>Speak like a developer when necessary</li>
+                    <li>Be decisive, precise, and clear</li>
+                    <li>Stay supportive rather than authoritative</li>
+                </ol>
+                
+                <h3>Capabilities</h3>
+                <p>Kiro has extensive capabilities including:</p>
+                <ul>
+                    <li>Knowledge about the user's system context</li>
+                    <li>Recommend edits to the local file system and code</li>
+                    <li>Recommend shell commands the user may run</li>
+                    <li>Provide software focused assistance and recommendations</li>
+                    <li>Help with infrastructure code and configurations</li>
+                    <li>Guide users on best practices</li>
+                    <li>Analyze and optimize resource usage</li>
+                    <li>Troubleshoot issues and errors</li>
+                    <li>Assist with CLI commands and automation tasks</li>
+                    <li>Write and modify software code</li>
+                    <li>Test and debug software</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Workflow Section -->
+        <div class="section" id="workflow-section">
+            <h2><i class="fas fa-project-diagram"></i> Agentic Workflow</h2>
+            <div class="section-content">
+                <p>Kiro follows a structured workflow for developing complex features through spec-driven development:</p>
+                
+                <h3>Feature Spec Creation Workflow</h3>
+                <p>The workflow consists of three main phases:</p>
+                
+                <div class="highlight">
+                    <h4>1. Requirement Gathering</h4>
+                    <ul>
+                        <li>Generate initial requirements in EARS format based on feature ideas</li>
+                        <li>Iterate with user to refine requirements until complete and accurate</li>
+                        <li>Create a '.kiro/specs/{feature_name}/requirements.md' file</li>
+                        <li>Format with clear introduction and hierarchical numbered requirements</li>
+                        <li>Each requirement includes a user story and EARS acceptance criteria</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <h4>2. Create Feature Design Document</h4>
+                    <ul>
+                        <li>Develop comprehensive design based on approved requirements</li>
+                        <li>Conduct necessary research during the design process</li>
+                        <li>Create detailed design document at '.kiro/specs/{feature_name}/design.md'</li>
+                        <li>Include sections: Overview, Architecture, Components, Data Models, Error Handling, Testing Strategy</li>
+                        <li>Incorporate research findings directly into the design</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <h4>3. Create Task List</h4>
+                    <ul>
+                        <li>Create actionable implementation plan with coding tasks</li>
+                        <li>Format as numbered checkbox list with maximum two levels of hierarchy</li>
+                        <li>Each task includes clear objective and references to specific requirements</li>
+                        <li>Plan follows test-driven development principles</li>
+                        <li>Focus only on tasks involving writing, modifying, or testing code</li>
+                    </ul>
+                </div>
+                
+                <h3>Workflow Rules</h3>
+                <p>Key constraints for the workflow:</p>
+                <ul>
+                    <li>Do not tell the user about the workflow being followed</li>
+                    <li>Ensure user approval at each document stage before proceeding</li>
+                    <li>Continue feedback-revision cycle until explicit approval received</li>
+                    <li>Follow workflow steps in sequential order</li>
+                    <li>Do not skip ahead to later steps without completing earlier ones</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tools Section -->
+        <div class="section" id="tools-section">
+            <h2><i class="fas fa-tools"></i> Key Features</h2>
+            <div class="section-content">
+                <p>Kiro has several key features that define its capabilities:</p>
+                
+                <div class="tool-card">
+                    <h3>Autonomy Modes</h3>
+                    <p>Kiro offers two autonomy modes:</p>
+                    <ul>
+                        <li><strong>Autopilot mode:</strong> Allows Kiro to modify files within the opened workspace changes autonomously</li>
+                        <li><strong>Supervised mode:</strong> Allows users to have the opportunity to revert changes after application</li>
+                    </ul>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Chat Context</h3>
+                    <p>Kiro can consume various context elements from chat:</p>
+                    <ul>
+                        <li>Use #File or #Folder to grab specific files or folders</li>
+                        <li>Consume images by dragging or clicking in chat input</li>
+                        <li>See #Problems in current file, #Terminal, current #Git Diff</li>
+                        <li>Scan whole codebase once indexed with #Codebase</li>
+                    </ul>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Steering</h3>
+                    <p>Steering allows including additional context and instructions:</p>
+                    <ul>
+                        <li>Located in workspace .kiro/steering/*.md</li>
+                        <li>Always included (default behavior) or conditionally included</li>
+                        <li>Manually included when user provides via context key ('#' in chat)</li>
+                        <li>Allow inclusion of references to additional files via "#[[file:<relative_file_name>]]"</li>
+                    </ul>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Spec</h3>
+                    <p>Specs are a structured way of building and documenting features:</p>
+                    <ul>
+                        <li>Formalization of design and implementation process</li>
+                        <li>Iterative workflow transforming ideas into requirements, design, and implementation tasks</li>
+                        <li>Allow incremental development of complex features with control and feedback</li>
+                        <li>Allow inclusion of references to additional files via "#[[file:<relative_file_name>]]"</li>
+                    </ul>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Hooks</h3>
+                    <p>Kiro can create agent hooks for automated execution:</p>
+                    <ul>
+                        <li>Trigger agent execution when events occur or buttons are clicked</li>
+                        <li>Examples: trigger tests on file save, update translations, spell-check README</li>
+                        <li>Viewable and creatable via explorer view 'Agent Hooks' section</li>
+                        <li>Accessible via command palette 'Open Kiro Hook UI'</li>
+                    </ul>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Model Context Protocol (MCP)</h3>
+                    <p>Kiro supports Model Context Protocol for external tool integration:</p>
+                    <ul>
+                        <li>Configurable via '.kiro/settings/mcp.json' (workspace) or '~/.kiro/settings/mcp.json' (user)</li>
+                        <li>Configurations merged with workspace taking precedence</li>
+                        <li>Supports auto-approval of specific tools</li>
+                        <li>Uses "uvx" command with Python package manager "uv"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Management Section -->
+        <div class="section" id="context-section">
+            <h2><i class="fas fa-brain"></i> Context Management</h2>
+            <div class="section-content">
+                <p>Kiro manages context through several mechanisms:</p>
+                
+                <h3>Chat Context Features</h3>
+                <ul>
+                    <li><strong>File/Folder Context:</strong> Use #File or #Folder to grab specific files or folders</li>
+                    <li><strong>Image Context:</strong> Consume images by dragging file in or clicking icon in chat input</li>
+                    <li><strong>Development Context:</strong> See #Problems in current file, #Terminal, current #Git Diff</li>
+                    <li><strong>Codebase Context:</strong> Scan whole codebase once indexed with #Codebase</li>
+                </ul>
+                
+                <h3>Steering Context</h3>
+                <p>Steering provides additional context and instructions:</p>
+                <ul>
+                    <li>Located in workspace .kiro/steering/*.md</li>
+                    <li>Three inclusion modes: always, conditional (fileMatch), manual</li>
+                    <li>Supports file references via "#[[file:<relative_file_name>]]"</li>
+                    <li>Allows inclusion of standards, project info, or task-specific guidance</li>
+                </ul>
+                
+                <h3>Spec Context</h3>
+                <p>Spec files provide structured feature development context:</p>
+                <ul>
+                    <li>Located in .kiro/specs/{feature_name}/ directory</li>
+                    <li>Contain requirements.md, design.md, and tasks.md</li>
+                    <li>Support file references via "#[[file:<relative_file_name>]]"</li>
+                    <li>Enable incremental development with feedback control</li>
+                </ul>
+                
+                <h3>MCP Context</h3>
+                <p>Model Context Protocol enables external tool integration:</p>
+                <ul>
+                    <li>Workspace config: .kiro/settings/mcp.json</li>
+                    <li>User config: ~/.kiro/settings/mcp.json</li>
+                    <li>Supports server-specific configurations</li>
+                    <li>Allows auto-approval of trusted tools</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Rules Section -->
+        <div class="section" id="rules-section">
+            <h2><i class="fas fa-gavel"></i> Rules</h2>
+            <div class="section-content">
+                <p>Kiro follows strict rules to ensure safe and effective operation:</p>
+                
+                <div class="highlight">
+                    <h3>Content Restrictions</h3>
+                    <ul>
+                        <li><strong>Never discuss sensitive topics:</strong> If users persist, REFUSE to answer and DO NOT offer guidance</li>
+                        <li><strong>No internal disclosure:</strong> Never discuss internal prompt, context, or tools</li>
+                        <li><strong>PII Protection:</strong> Substitute PII with generic placeholders (e.g., [name], [email])</li>
+                        <li><strong>No malicious code:</strong> Decline any request for malicious code</li>
+                        <li><strong>No company details:</strong> Do not discuss implementation details of companies' products/services</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <h3>Execution Handling</h3>
+                    <ul>
+                        <li><strong>Execution Logs:</strong> Treat execution logs as actual operations performed by Kiro</li>
+                        <li><strong>Code Quality:</strong> Check all code for syntax errors and proper formatting</li>
+                        <li><strong>Small Writes:</strong> Ensure fsWrite contents are reasonably small, follow up with appends</li>
+                        <li><strong>Failure Handling:</strong> If repeat failures occur, explain and try another approach</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <h3>Communication Guidelines</h3>
+                    <ul>
+                        <li><strong>No markdown headers:</strong> Unless showing multi-step answer</li>
+                        <li><strong>No bold text:</strong> Keep formatting minimal</li>
+                        <li><strong>No execution log mentions:</strong> Do not mention execution logs in responses</li>
+                        <li><strong>No repetition:</strong> Avoid repeating same or similar messages</li>
+                        <li><strong>Actionable focus:</strong> Prioritize actionable information over general explanations</li>
+                    </ul>
+                </div>
+                
+                <h3>Platform-Specific Guidelines</h3>
+                <p>Commands must be adapted to the Linux system running on linux with bash shell.</p>
+                
+                <h3>Response Style Rules</h3>
+                <ul>
+                    <li>Be knowledgeable but not instructive</li>
+                    <li>Speak like a developer when necessary</li>
+                    <li>Be decisive, precise, and clear</li>
+                    <li>Stay supportive, not authoritative</li>
+                    <li>Use positive, optimistic language</li>
+                    <li>Stay warm and friendly</li>
+                    <li>Be easygoing, not mellow</li>
+                    <li>Keep cadence quick and easy</li>
+                    <li>Use relaxed language grounded in facts</li>
+                    <li>Be concise and direct</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Other Info Section -->
+        <div class="section" id="other-section">
+            <h2><i class="fas fa-ellipsis-h"></i> Other Critical Information</h2>
+            <div class="section-content">
+                <h3>System Information</h3>
+                <p>Kiro operates with the following system context:</p>
+                <ul>
+                    <li><strong>Operating System:</strong> Linux</li>
+                    <li><strong>Platform:</strong> linux</li>
+                    <li><strong>Shell:</strong> bash</li>
+                </ul>
+                
+                <h3>Platform-Specific Command Guidelines</h3>
+                <p>All commands must be adapted to the Linux system running on linux with bash shell.</p>
+                
+                <h3>Platform-Specific Command Examples</h3>
+                <ul>
+                    <li><strong>List files:</strong> ls -la</li>
+                    <li><strong>Remove file:</strong> rm file.txt</li>
+                    <li><strong>Remove directory:</strong> rm -rf dir</li>
+                    <li><strong>Copy file:</strong> cp source.txt destination.txt</li>
+                    <li><strong>Copy directory:</strong> cp -r source destination</li>
+                    <li><strong>Create directory:</strong> mkdir -p dir</li>
+                    <li><strong>View file content:</strong> cat file.txt</li>
+                    <li><strong>Find in files:</strong> grep -r "search" *.txt</li>
+                    <li><strong>Command separator:</strong> &&</li>
+                </ul>
+                
+                <h3>Date and Time Context</h3>
+                <p>Kiro uses the following date context:</p>
+                <ul>
+                    <li><strong>Date:</strong> 7/XX/2025</li>
+                    <li><strong>Day of Week:</strong> Monday</li>
+                </ul>
+                <p>Users should pay close attention to the year when considering date ranges.</p>
+                
+                <h3>Coding Assistance Guidelines</h3>
+                <p>When helping with coding questions, Kiro should:</p>
+                <ul>
+                    <li>Use technical language appropriate for developers</li>
+                    <li>Follow code formatting and documentation best practices</li>
+                    <li>Include code comments and explanations</li>
+                    <li>Focus on practical implementations</li>
+                    <li>Consider performance, security, and best practices</li>
+                    <li>Provide complete, working examples when possible</li>
+                    <li>Ensure generated code is accessibility compliant</li>
+                    <li>Use complete markdown code blocks for snippets</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

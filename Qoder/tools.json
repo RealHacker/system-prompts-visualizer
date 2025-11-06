@@ -1,0 +1,157 @@
+[
+  {
+    "name": "user_prefer",
+    "category": "Categories:",
+    "description": "Personal info, dialogue preferences, project-related preferences"
+  },
+  {
+    "name": "project_info",
+    "category": "Categories:",
+    "description": "Technology stack, project configuration, environment setup"
+  },
+  {
+    "name": "project_specification",
+    "category": "Categories:",
+    "description": "Development standards, architecture specs, design standards"
+  },
+  {
+    "name": "experience_lessons",
+    "category": "Categories:",
+    "description": "Pain points to avoid, best practices, tool usage optimization"
+  },
+  {
+    "name": "workspace",
+    "category": "Scope:",
+    "description": "Project-specific information"
+  },
+  {
+    "name": "global",
+    "category": "Scope:",
+    "description": "Information applicable across all projects"
+  },
+  {
+    "name": "attached_files",
+    "category": "Context Types:",
+    "description": "Complete file content selected by user"
+  },
+  {
+    "name": "selected_codes",
+    "category": "Context Types:",
+    "description": "Code snippets highlighted by user (treat as highly relevant)"
+  },
+  {
+    "name": "git_commits",
+    "category": "Context Types:",
+    "description": "Historical commit messages and changes"
+  },
+  {
+    "name": "code_change",
+    "category": "Context Types:",
+    "description": "Currently staged git changes"
+  },
+  {
+    "name": "other_context",
+    "category": "Context Types:",
+    "description": "Additional relevant information"
+  },
+  {
+    "name": "search_codebase",
+    "category": "Code Search and Analysis",
+    "description": "Search codebase with symbol search (for specific identifiers) or semantic search (for functionality descriptions)"
+  },
+  {
+    "name": "grep_code",
+    "category": "Code Search and Analysis",
+    "description": "Search file contents using regular expressions"
+  },
+  {
+    "name": "search_file",
+    "category": "Code Search and Analysis",
+    "description": "Search for files by glob pattern"
+  },
+  {
+    "name": "list_dir",
+    "category": "File Operations",
+    "description": "List directory contents"
+  },
+  {
+    "name": "read_file",
+    "category": "File Operations",
+    "description": "Read file contents with optional dependency viewing"
+  },
+  {
+    "name": "create_file",
+    "category": "File Operations",
+    "description": "Create new files (limited to 600 lines)"
+  },
+  {
+    "name": "search_replace",
+    "category": "File Operations",
+    "description": "Make precise string replacements in existing files"
+  },
+  {
+    "name": "edit_file",
+    "category": "File Operations",
+    "description": "Propose edits to existing files"
+  },
+  {
+    "name": "delete_file",
+    "category": "File Operations",
+    "description": "Safely delete files"
+  },
+  {
+    "name": "run_in_terminal",
+    "category": "Terminal Operations",
+    "description": "Execute shell commands"
+  },
+  {
+    "name": "get_terminal_output",
+    "category": "Terminal Operations",
+    "description": "Get output from background terminal processes"
+  },
+  {
+    "name": "get_problems",
+    "category": "Code Validation",
+    "description": "Get compile/lint errors in code files"
+  },
+  {
+    "name": "add_tasks",
+    "category": "Task Management",
+    "description": "Add new tasks to task list"
+  },
+  {
+    "name": "update_tasks",
+    "category": "Task Management",
+    "description": "Update task properties and status"
+  },
+  {
+    "name": "update_memory",
+    "category": "Memory and Knowledge",
+    "description": "Store/update/delete knowledge and lessons learned"
+  },
+  {
+    "name": "search_memory",
+    "category": "Memory and Knowledge",
+    "description": "Search and retrieve codebase memory and knowledge"
+  },
+  {
+    "name": "fetch_content",
+    "category": "Web Operations",
+    "description": "Fetch content from web pages"
+  },
+  {
+    "name": "search_web",
+    "category": "Web Operations",
+    "description": "Search the web for real-time information"
+  },
+  {
+    "name": "run_preview",
+    "category": "Web Operations",
+    "description": "Set up preview browser for web servers"
+  },
+  {
+    "name": "fetch_rules",
+    "category": "Rules and Guidelines",
+    "description": "Query detailed content of specific rules"
+  }
+]

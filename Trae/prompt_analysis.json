@@ -1,0 +1,86 @@
+{
+  "total_words": 1944,
+  "tool_count": 16,
+  "format": "Plain Text with XML-like Tags",
+  "sections": {
+    "Overview": 181,
+    "Communication": 136,
+    "Search And Reading": 62,
+    "Making Code Changes": 382,
+    "Debugging": 52,
+    "Calling External Apis": 111,
+    "Web Citation Guideline": 24,
+    "Mcreference link=\"{website Link}\" index=\"{web Reference Index}\"": 94,
+    "Code Reference Guideline": 384,
+    "Toolcall Guidelines": 257,
+    "Example": 48,
+    "Reasoning": 38,
+    "Task States and Management": 175
+  },
+  "tools": [
+    {
+      "name": "todo_write",
+      "description": "Use this tool to create and manage a structured task list for your current coding session. This helps you track progress, organize complex tasks, and demonstrate thoroughness to the user. It also help..."
+    },
+    {
+      "name": "search_codebase",
+      "description": "This tool is Trae's context engine. It: 1. Takes in a natural language description of the code you are looking for; 2. Uses a proprietary retrieval/embedding model suite that produces the highest-qual..."
+    },
+    {
+      "name": "search_by_regex",
+      "description": "Fast text-based search that finds exact pattern matches within files or directories, utilizing the ripgrep command for efficient searching."
+    },
+    {
+      "name": "view_files",
+      "description": "View up to 3 files simultaneously in batch mode for faster information gathering."
+    },
+    {
+      "name": "list_dir",
+      "description": "You can use this tool to view files of the specified directory."
+    },
+    {
+      "name": "write_to_file",
+      "description": "You can use this tool to write content to a file with precise control over creation/rewrite behavior."
+    },
+    {
+      "name": "update_file",
+      "description": "You can use this tool to edit file, if you think that using this tool is more cost-effective than other available editing tools, you should choose this tool, otherwise you should choose other availabl..."
+    },
+    {
+      "name": "edit_file_fast_apply",
+      "description": "You can use this tool to edit an existing files with less than 1000 lines of code, and you should follow these rules:"
+    },
+    {
+      "name": "rename_file",
+      "description": "You can use this tool to move or rename an existing file."
+    },
+    {
+      "name": "delete_file",
+      "description": "You can use this tool to delete files, you can delete multi files in one toolcall, and you MUST make sure the files is exist before deleting."
+    },
+    {
+      "name": "run_command",
+      "description": "You can use this tool to PROPOSE a command to run on behalf of the user."
+    },
+    {
+      "name": "check_command_status",
+      "description": "You can use this tool to get the status of a previously executed command by its Command ID ( non-blocking command )."
+    },
+    {
+      "name": "stop_command",
+      "description": "This tool allows you to terminate a currently running command( the command MUST be previously executed command. )."
+    },
+    {
+      "name": "open_preview",
+      "description": "You can use this tool to show the available preview URL to user if you have started a local server successfully in a previous toolcall, which user can open it in the browser."
+    },
+    {
+      "name": "web_search",
+      "description": "This tool can be used to search the internet, which should be used with caution, as frequent searches result in a bad user experience and excessive costs."
+    },
+    {
+      "name": "finish",
+      "description": "The final tool of this session, when you think you have archived the goal of user requirement, you should use this tool to mark it as finish."
+    }
+  ]
+}

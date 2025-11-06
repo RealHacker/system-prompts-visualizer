@@ -1,0 +1,25 @@
+{
+  "Prompt.txt": {
+    "total_words": 768,
+    "sections": {}
+  },
+  "System Prompt 2025-08-20": {
+    "total_words": 3920,
+    "sections": {
+      "Overview": 132,
+      "How You Work": 4,
+      "Personality": 51,
+      "Planning": 355,
+      "Task Execution": 392,
+      "Testing": 237,
+      "Sandbox & Approvals": 543,
+      "Ambition vs Precision": 144,
+      "Progress Updates": 193,
+      "Presenting Work": 307,
+      "Tool Guidelines": 3,
+      "Shell Commands": 93,
+      "Apply Patch": 365,
+      "Update Plan": 116
+    }
+  }
+}

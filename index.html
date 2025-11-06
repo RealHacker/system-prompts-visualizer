@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AI Agents System Prompts Index</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <style>
+            :root {
+                --primary: #4361ee;
+                --secondary: #3f37c9;
+                --accent: #4895ef;
+                --success: #4cc9f0;
+                --warning: #f72585;
+                --danger: #e63946;
+                --light: #f8f9fa;
+                --dark: #212529;
+                --sidebar-bg: #1a1d21;
+                --content-bg: #ffffff;
+                --border: #e9ecef;
+                --text-primary: #212529;
+                --text-secondary: #6c757d;
+                --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                --transition: all 0.3s ease;
+                --github: #333;
+                --twitter: #1da1f2;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                background-color: #f5f7fb;
+                color: var(--text-primary);
+                display: flex;
+                min-height: 100vh;
+                line-height: 1.6;
+            }
+
+            /* Header Styles */
+            .header {
+                width: 100%;
+                background: var(--content-bg);
+                padding: 20px 30px;
+                box-shadow: var(--shadow);
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 100;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: var(--dark);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .header h1 i {
+                color: var(--primary);
+            }
+
+            .social-links {
+                display: flex;
+                gap: 15px;
+            }
+
+            .social-link {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                text-decoration: none;
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+                transition: var(--transition);
+                padding: 8px 12px;
+                border-radius: 6px;
+            }
+
+            .social-link:hover {
+                background: #f1f3f5;
+                color: var(--dark);
+            }
+
+            .github-link:hover {
+                color: var(--github);
+            }
+
+            .twitter-link:hover {
+                color: var(--twitter);
+            }
+
+            /* Main Content Styles */
+            .main-content {
+                flex: 1;
+                margin-top: 80px;
+                padding: 30px;
+                transition: var(--transition);
+            }
+
+            .content-header {
+                margin-bottom: 30px;
+                text-align: center;
+            }
+
+            .content-header h2 {
+                font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                color: var(--dark);
+            }
+
+            .content-header p {
+                color: var(--text-secondary);
+                font-size: 1.1rem;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            /* Sections */
+            .section {
+                background: var(--content-bg);
+                border-radius: 12px;
+                padding: 25px;
+                margin-bottom: 30px;
+                box-shadow: var(--shadow);
+            }
+
+            .section h2 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin-bottom: 25px;
+                color: var(--dark);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #f1f3f5;
+            }
+
+            .section h2 i {
+                color: var(--primary);
+            }
+
+            /* Agent Grid */
+            .agent-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .agent-card {
+                background: #f8f9fa;
+                border-radius: 12px;
+                padding: 20px;
+                transition: var(--transition);
+                border: 1px solid #e9ecef;
+                text-decoration: none;
+                color: inherit;
+                display: block;
+            }
+
+            .agent-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                border-color: var(--primary);
+            }
+
+            .agent-card h3 {
+                font-size: 1.3rem;
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: var(--secondary);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .agent-card h3 i {
+                color: var(--primary);
+            }
+
+            .agent-card p {
+                color: var(--text-secondary);
+                font-size: 0.95rem;
+                margin-bottom: 15px;
+            }
+
+            .agent-card .view-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                color: var(--primary);
+                font-weight: 500;
+                text-decoration: none;
+                font-size: 0.9rem;
+            }
+
+            .agent-card .view-link:hover {
+                text-decoration: underline;
+            }
+
+            /* Footer */
+            .footer {
+                text-align: center;
+                padding: 30px;
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+                border-top: 1px solid #e9ecef;
+                margin-top: 20px;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .header {
+                    flex-direction: column;
+                    gap: 15px;
+                    padding: 15px 20px;
+                }
+                
+                .main-content {
+                    margin-top: 120px;
+                    padding: 20px 15px;
+                }
+                
+                .agent-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .content-header h2 {
+                    font-size: 1.5rem;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .social-links {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+                
+                .section h2 {
+                    font-size: 1.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-robot"></i>
+                <span>AI Agents System Prompts</span>
+            </h1>
+            <div class="social-links">
+                <a href="https://github.com/RealHacker" target="_blank" class="social-link github-link">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://x.com/wangleineo" target="_blank" class="social-link twitter-link">
+                    <i class="fab fa-twitter"></i>
+                    <span>X</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h2>System Prompt Visualizations</h2>
+                <p>Explore the inner workings of various AI agents through their system prompt visualizations. Understand how different agents are designed and configured.</p>
+            </div>
+
+            <!-- Generic Agents Section -->
+            <div class="section">
+                <h2><i class="fas fa-users"></i> Generic Agents</h2>
+                <div class="agent-grid">
+                    <a href="Claude/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-brain"></i> Claude</h3>
+                        <p>Anthropic's AI assistant with advanced reasoning capabilities.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Cluely/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-comments"></i> Cluely</h3>
+                        <p>AI assistant focused on natural conversation and understanding.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Comet Assistant/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-meteor"></i> Comet Assistant</h3>
+                        <p>Specialized AI assistant with unique capabilities.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Dia/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-comment-dots"></i> Dia</h3>
+                        <p>Conversational AI with contextual understanding.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="GPT5/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-robot"></i> GPT5</h3>
+                        <p>Advanced AI assistant with cutting-edge capabilities.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Junie/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-user-astronaut"></i> Junie</h3>
+                        <p>Advanced AI assistant with specialized knowledge.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Lumo/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-lightbulb"></i> Lumo</h3>
+                        <p>AI assistant focused on illumination and insight.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Manus/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-hands-helping"></i> Manus</h3>
+                        <p>Helpful AI assistant with comprehensive capabilities.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="NotionAi/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-sticky-note"></i> NotionAI</h3>
+                        <p>AI assistant integrated with Notion's workspace.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Perplexity/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-question-circle"></i> Perplexity</h3>
+                        <p>AI research assistant with web search capabilities.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Poke/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-gamepad"></i> Poke</h3>
+                        <p>Interactive AI assistant with playful capabilities.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Coding Agents Section -->
+            <div class="section">
+                <h2><i class="fas fa-code"></i> Coding Agents</h2>
+                <div class="agent-grid">
+                    <a href="Amp/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-bolt"></i> Amp</h3>
+                        <p>Sourcegraph's powerful AI coding agent.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Augment Code/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-plus-circle"></i> Augment Code</h3>
+                        <p>AI assistant for code augmentation and enhancement.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Bolt/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-flash"></i> Bolt</h3>
+                        <p>Fast and efficient coding assistant.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Claude Code/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-terminal"></i> Claude Code</h3>
+                        <p>Anthropic's coding-focused AI assistant.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Cline/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-code-branch"></i> Cline</h3>
+                        <p>AI assistant specialized for code-related tasks.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="CodeBuddy/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-user-friends"></i> CodeBuddy</h3>
+                        <p>Your friendly coding companion and assistant.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Codex CLI/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-terminal"></i> Codex CLI</h3>
+                        <p>Command-line interface powered by AI coding models.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Cursor/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-mouse-pointer"></i> Cursor</h3>
+                        <p>AI-powered code editor and assistant.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Devin AI/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-robot"></i> Devin AI</h3>
+                        <p>Autonomous AI software engineer.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Emergent/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-seedling"></i> Emergent</h3>
+                        <p>AI assistant with emergent coding capabilities.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Gemini CLI/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-gem"></i> Gemini CLI</h3>
+                        <p>Google's AI model in command-line interface.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Github Copilot/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fab fa-github"></i> Github Copilot</h3>
+                        <p>AI pair programmer integrated with GitHub.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Kiro/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-wind"></i> Kiro</h3>
+                        <p>Lightweight and efficient coding assistant.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Leap.new/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-leap"></i> Leap.new</h3>
+                        <p>Innovative AI coding assistant with new approaches.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Lovable/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-heart"></i> Lovable</h3>
+                        <p>AI assistant designed to be loved by developers.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Orchids.app/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-orchid"></i> Orchids.app</h3>
+                        <p>Elegant AI assistant for sophisticated tasks.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Qoder/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-laptop-code"></i> Qoder</h3>
+                        <p>High-quality AI coding assistant.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Replit/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-sync-alt"></i> Replit</h3>
+                        <p>Collaborative coding environment with AI assistance.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="RooCode/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-home"></i> RooCode</h3>
+                        <p>Foundational AI coding assistant.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Same.dev/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-equals"></i> Same.dev</h3>
+                        <p>Consistent and reliable AI development assistant.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Trae/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-truck-moving"></i> Trae</h3>
+                        <p>AI assistant for transportation and logistics coding.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Traycer AI/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-route"></i> Traycer AI</h3>
+                        <p>AI assistant for tracing and debugging code.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Warp.dev/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-warp"></i> Warp.dev</h3>
+                        <p>Modern terminal with AI capabilities.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Windsurf/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-wind"></i> Windsurf</h3>
+                        <p>AI assistant that rides the wave of innovation.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="Z.ai Code/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-z"></i> Z.ai Code</h3>
+                        <p>Cutting-edge AI coding assistant.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="v0/system_prompt_visualizer.html" class="agent-card">
+                        <h3><i class="fas fa-infinity"></i> v0</h3>
+                        <p>Version zero - foundational AI coding model.</p>
+                        <span class="view-link">View Visualization <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="https://github-spark-docs.simonwillison.net/" class="agent-card">
+                        <h3><i class="fab fa-github"></i> Github Spark</h3>
+                        <p>GitHub's AI coding assistant documentation.</p>
+                        <span class="view-link">View Documentation <i class="fas fa-external-link-alt"></i></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>System Prompts and Models of AI Tools Collection</p>
+                <p>This repository contains system prompts from various AI-powered development tools and agents.</p>
+            </div>
+        </div>
+    </body>
+</html>

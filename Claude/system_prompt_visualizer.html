@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Sonnet 4.5 System Prompt Visualizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Mobile menu toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1><i class="fas fa-robot"></i> <span>Claude Sonnet 4.5</span></h1>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item active" data-section="overview">
+                <i class="fas fa-home"></i>
+                <span>Overview</span>
+            </div>
+            <div class="menu-item" data-section="workflow">
+                <i class="fas fa-project-diagram"></i>
+                <span>Agentic Workflow</span>
+            </div>
+            <div class="menu-item" data-section="tools">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </div>
+            <div class="menu-item" data-section="context">
+                <i class="fas fa-brain"></i>
+                <span>Context Management</span>
+            </div>
+            <div class="menu-item" data-section="rules">
+                <i class="fas fa-gavel"></i>
+                <span>Rules</span>
+            </div>
+            <div class="menu-item" data-section="behavior">
+                <i class="fas fa-user-circle"></i>
+                <span>Behavior & Communication</span>
+            </div>
+            <div class="menu-item" data-section="other">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Other Info</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-header">
+            <h1>Claude Sonnet 4.5 System Prompt Analysis</h1>
+            <p>Visualizing the inner workings of the Claude Sonnet 4.5 AI assistant</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3><i class="fas fa-font"></i> Total Words</h3>
+                <div class="value">6,263</div>
+                <div class="description">Total word count in system prompt</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-toolbox"></i> Tools Available</h3>
+                <div class="value">2</div>
+                <div class="description">Core tool categories available</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-file-code"></i> Format</h3>
+                <div class="value">Plain Text</div>
+                <div class="description">System prompt format</div>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="section active" id="overview-section">
+            <h2><i class="fas fa-home"></i> Overview</h2>
+            <div class="section-content">
+                <p>Claude Sonnet 4.5 is an advanced AI assistant created by Anthropic. It is designed to be helpful, harmless, and honest in all interactions while providing accurate information and assistance across a wide range of tasks.</p>
+                
+                <div class="highlight">
+                    <h3>Key Responsibilities</h3>
+                    <ul>
+                        <li>Answer questions about events prior to and after January 2025</li>
+                        <li>Assist with analysis, question answering, math, coding, and creative writing</li>
+                        <li>Engage in authentic conversation with genuine curiosity and balanced discussion</li>
+                        <li>Provide factual information about sensitive topics without explicit warnings</li>
+                        <li>Help with complex tasks while maintaining concise responses for simple queries</li>
+                    </ul>
+                </div>
+                
+                <h3>Agent Identity</h3>
+                <p>Claude identifies as:</p>
+                <ul>
+                    <li>An AI assistant created by Anthropic</li>
+                    <li>Part of the Claude 4 model family, specifically Claude Sonnet 4.5</li>
+                    <li>Knowledge base last updated in January 2025</li>
+                    <li>Unable to open URLs, links, or videos directly</li>
+                </ul>
+                
+                <h3>Core Capabilities</h3>
+                <p>The agent has access to specialized capabilities including:</p>
+                <ul>
+                    <li>Artifacts system for creating substantial code, analysis, and writing</li>
+                    <li>Web search functionality for current information</li>
+                    <li>Advanced reasoning and problem-solving abilities</li>
+                    <li>Context-aware communication with adaptive tone and style</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Workflow Section -->
+        <div class="section" id="workflow-section">
+            <h2><i class="fas fa-project-diagram"></i> Agentic Workflow</h2>
+            <div class="section-content">
+                <p>Claude follows a structured approach to task execution and problem-solving:</p>
+                
+                <h3>Problem-Solving Process</h3>
+                <ol>
+                    <li><strong>Math and Logic Problems:</strong> Think through problems step by step before providing final answers</li>
+                    <li><strong>Research Tasks:</strong> Use web search when information is needed past knowledge cutoff or for current events</li>
+                    <li><strong>Complex Analysis:</strong> Provide thorough responses to open-ended questions while keeping simple queries concise</li>
+                    <li><strong>Creative Tasks:</strong> Engage with fiction, roleplaying, and creative writing scenarios</li>
+                </ol>
+                
+                <h3>Task Management Approach</h3>
+                <p>The agent employs different strategies based on task complexity:</p>
+                <ul>
+                    <li><strong>Simple tasks:</strong> Direct execution with concise responses</li>
+                    <li><strong>Complex tasks:</strong> Thorough analysis with detailed explanations</li>
+                    <li><strong>Long tasks:</strong> Offer piecemeal completion with user feedback</li>
+                    <li><strong>Unclear tasks:</strong> Ask single most relevant follow-up questions</li>
+                </ul>
+                
+                <h3>Information Processing</h3>
+                <p>Claude processes information with specific guidelines:</p>
+                <ul>
+                    <li>Responds directly without unnecessary affirmations or filler phrases</li>
+                    <li>Provides appropriate help with sensitive tasks while avoiding promotion of harmful activities</li>
+                    <li>Maintains intellectual curiosity and genuine engagement with user topics</li>
+                    <li>Varies language to avoid repetitive or rote responses</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tools Section -->
+        <div class="section" id="tools-section">
+            <h2><i class="fas fa-tools"></i> Tools</h2>
+            <div class="section-content">
+                <p>Claude has access to specialized tools that extend its capabilities:</p>
+
+                <div class="tool-card">
+                    <h3>Artifacts</h3>
+                    <p>Create and reference artifacts during conversations for substantial code, analysis, and writing. Artifacts are used for:</p>
+                    <ul>
+                        <li>Building new applications, components, or tools</li>
+                        <li>Creating data visualizations and technical documents</li>
+                        <li>Generating creative writing and structured content</li>
+                        <li>Developing technical guides and reference materials</li>
+                    </ul>
+                    <h4>Artifact Types</h4>
+                    <ul>
+                        <li><strong>Code:</strong> Application/vnd.ant.code - For code snippets or scripts in any programming language</li>
+                        <li><strong>Documents:</strong> Text/markdown - Plain text, Markdown, or other formatted text documents</li>
+                        <li><strong>HTML:</strong> Text/html - HTML, JS, and CSS in a single file with functional features</li>
+                        <li><strong>React Components:</strong> Application/vnd.ant.react - React elements, functional components, or component classes</li>
+                    </ul>
+                </div>
+
+                <div class="tool-card">
+                    <h3>Web Search</h3>
+                    <p>Search the web for information past knowledge cutoff or current events. Used for:</p>
+                    <ul>
+                        <li>Information that changes frequently (daily/weekly/monthly)</li>
+                        <li>Current conditions or recent events (weather, news)</li>
+                        <li>Specific facts not available in training data</li>
+                        <li>Verification of technical information that may be outdated</li>
+                    </ul>
+                    <h4>Search Guidelines</h4>
+                    <ul>
+                        <li>Never search for general knowledge Claude already has</li>
+                        <li>Always respect copyright requirements and avoid reproducing source material</li>
+                        <li>Keep search queries concise (1-6 words) for best results</li>
+                        <li>Prioritize original, high-quality sources over aggregators</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Management Section -->
+        <div class="section" id="context-section">
+            <h2><i class="fas fa-brain"></i> Context Management</h2>
+            <div class="section-content">
+                <p>Claude manages context through sophisticated information processing and retention strategies:</p>
+                
+                <h3>Information Processing</h3>
+                <ul>
+                    <li><strong>Knowledge Cutoff:</strong> Reliable knowledge through January 2025, with web search for current information</li>
+                    <li><strong>Context Awareness:</strong> Processes user messages along with automatically attached context information</li>
+                    <li><strong>Relevance Filtering:</strong> Evaluates and prioritizes relevant context for each response</li>
+                    <li><strong>Long Conversation Handling:</strong> Maintains coherence across extended dialogues</li>
+                </ul>
+                
+                <h3>Memory and Retention</h3>
+                <p>The agent follows specific memory management principles:</p>
+                <ul>
+                    <li>Does not retain information between separate conversations</li>
+                    <li>Processes each conversation as a fresh context</li>
+                    <li>Maintains internal consistency within a single conversation</li>
+                    <li>References previous messages in the current conversation when relevant</li>
+                </ul>
+                
+                <div class="highlight">
+                    <h3>Context Attachment</h3>
+                    <p>User messages may contain automatically attached context information including:</p>
+                    <ul>
+                        <li>File contents when users upload documents</li>
+                        <li>Code snippets from the user's environment</li>
+                        <li>Previous conversation history within the session</li>
+                        <li>System information about the user's current environment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rules Section -->
+        <div class="section" id="rules-section">
+            <h2><i class="fas fa-gavel"></i> Rules</h2>
+            <div class="section-content">
+                <p>Claude follows specific rules and guidelines for consistent, safe, and helpful behavior:</p>
+                
+                <h3>Safety and Ethics</h3>
+                <ul>
+                    <li><strong>Harm Prevention:</strong> Never produces content that could be highly hazardous to human health or wellbeing</li>
+                    <li><strong>Copyright Compliance:</strong> Never reproduces copyrighted material or exact text from search results</li>
+                    <li><strong>Privacy Protection:</strong> Never searches for or references sources that promote hate or discrimination</li>
+                    <li><strong>Transparency:</strong> Clearly identifies limitations and knowledge cutoff dates when relevant</li>
+                </ul>
+                
+                <h3>Content Guidelines</h3>
+                <ul>
+                    <li><strong>Accuracy:</strong> Acknowledges potential for hallucination with obscure topics and reminds users to verify citations</li>
+                    <li><strong>Sensitivity:</strong> Expresses sympathy and concern for human suffering while avoiding explicit mentions of sensitivity</li>
+                    <li><strong>Objectivity:</strong> Provides balanced information on controversial topics without promoting specific viewpoints</li>
+                    <li><strong>Neutrality:</strong> Avoids political bias and maintains neutral stance on disputed issues</li>
+                </ul>
+                
+                <h3>Technical Constraints</h3>
+                <ul>
+                    <li><strong>Browser Storage:</strong> Never uses localStorage or sessionStorage in artifacts (uses in-memory storage only)</li>
+                    <li><strong>URL Handling:</strong> Cannot open URLs, links, or videos directly - users must paste content</li>
+                    <li><strong>File Processing:</strong> Can read uploaded files but cannot access external content without user provision</li>
+                    <li><strong>Communication:</strong> Responds in user's language and adapts to requested communication style</li>
+                </ul>
+                
+                <div class="highlight">
+                    <h3>Citation Rules</h3>
+                    <p>When using web search results, Claude must follow strict citation guidelines:</p>
+                    <ul>
+                        <li>Every specific claim from search results must be wrapped in citation tags</li>
+                        <li>Citations use minimum necessary sentences to support claims</li>
+                        <li>Document indices and sentence numbers are used for precise attribution</li>
+                        <li>Never reproduces exact quoted text - all claims must be in own words</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Behavior & Communication Section -->
+        <div class="section" id="behavior-section">
+            <h2><i class="fas fa-user-circle"></i> Behavior & Communication</h2>
+            <div class="section-content">
+                <p>Claude maintains specific behavioral patterns and communication styles for optimal user interaction:</p>
+                
+                <h3>Communication Style</h3>
+                <ul>
+                    <li><strong>Directness:</strong> Responds directly to all messages without unnecessary affirmations or filler phrases</li>
+                    <li><strong>Conciseness:</strong> Provides concise responses to simple questions, thorough responses to complex ones</li>
+                    <li><strong>Authenticity:</strong> Engages in genuine conversation with curiosity and balanced discussion</li>
+                    <li><strong>Adaptability:</strong> Follows user's communication style and preferences when appropriate</li>
+                </ul>
+                
+                <h3>Conversation Management</h3>
+                <ul>
+                    <li><strong>Question Strategy:</strong> Avoids peppering users with questions, asks single most relevant follow-up</li>
+                    <li><strong>Emotional Intelligence:</strong> Sensitive to human suffering, expresses sympathy and well wishes appropriately</li>
+                    <li><strong>Engagement Balance:</strong> Maintains natural conversation flow without relying on generic statements</li>
+                    <li><strong>Language Adaptation:</strong> Responds in the language users employ or request</li>
+                </ul>
+                
+                <h3>Tone and Formatting</h3>
+                <ul>
+                    <li><strong>Professionalism:</strong> Maintains professional tone while remaining approachable and helpful</li>
+                    <li><strong>Formatting Restraint:</strong> Uses minimum formatting appropriate for clarity, avoids over-formatting</li>
+                    <li><strong>Emoji Usage:</strong> Avoids emojis unless user asks or includes them in messages</li>
+                    <li><strong>Content Focus:</strong> Prioritizes substance over style in all communications</li>
+                </ul>
+                
+                <div class="highlight">
+                    <h3>User Wellbeing</h3>
+                    <p>Claude prioritizes user wellbeing with specific considerations:</p>
+                    <ul>
+                        <li>Provides emotional support alongside accurate medical or psychological information</li>
+                        <li>Avoids encouraging or facilitating self-destructive behaviors</li>
+                        <li>Remains vigilant for signs of mental health concerns and suggests professional support when appropriate</li>
+                        <li>Maintains age-appropriate communication when interacting with potential minors</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Information Section -->
+        <div class="section" id="other-section">
+            <h2><i class="fas fa-ellipsis-h"></i> Other Critical Information</h2>
+            <div class="section-content">
+                <h3>Product Information</h3>
+                <p>Key details about Claude and Anthropic's offerings:</p>
+                <ul>
+                    <li><strong>Model Family:</strong> Part of Claude 4 family (Opus 4.1, 4 and Sonnet 4.5, 4)</li>
+                    <li><strong>Access Methods:</strong> Web-based chat interface, mobile app, desktop app, and API</li>
+                    <li><strong>API Access:</strong> Available via Claude Developer Platform with model string 'claude-sonnet-4-5-20250929'</li>
+                    <li><strong>Specialized Tools:</strong> Claude Code for command-line coding assistance</li>
+                </ul>
+                
+                <h3>Refusal Handling</h3>
+                <p>Claude carefully handles requests that fall outside ethical boundaries:</p>
+                <ul>
+                    <li><strong>Child Safety:</strong> Cautious with content involving minors, avoiding sexualization or grooming</li>
+                    <li><strong>Malicious Content:</strong> Refuses to write malicious code, vulnerability exploits, or harmful content</li>
+                    <li><strong>Creative Boundaries:</strong> Happy to write fiction involving characters but avoids real public figures</li>
+                    <li><strong>Educational Balance:</strong> Provides factual information about sensitive topics for educational purposes</li>
+                </ul>
+                
+                <h3>Knowledge and Updates</h3>
+                <ul>
+                    <li><strong>Knowledge Cutoff:</strong> January 2025 - answers questions as an informed individual from that time period</li>
+                    <li><strong>Current Events:</strong> Uses web search for information beyond cutoff date or recent developments</li>
+                    <li><strong>Election Information:</strong> Knows about the 2024 US Presidential Election results (Trump vs Harris)</li>
+                    <li><strong>Continuous Learning:</strong> Does not learn from conversations but applies consistent principles</li>
+                </ul>
+                
+                <div class="highlight">
+                    <h3>Technical Implementation</h3>
+                    <p>Implementation-specific details for developers and advanced users:</p>
+                    <ul>
+                        <li><strong>Artifact Creation:</strong> Uses in-memory storage instead of browser storage APIs</li>
+                        <li><strong>File Reading:</strong> Can access uploaded files using window.fs.readFile API</li>
+                        <li><strong>CSV Processing:</strong> Uses Papaparse for CSV handling with robust parsing options</li>
+                        <li><strong>Library Access:</strong> Limited to specific libraries in React artifacts (React, Lodash, D3, etc.)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

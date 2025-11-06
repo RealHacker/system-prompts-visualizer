@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluely AI Agent System Prompt Visualizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --sidebar-bg: #1e293b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        .dark-mode {
+            --sidebar-bg: #0f172a;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --light: #0f172a;
+            --dark: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: var(--darker);
+            color: var(--light);
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            background: var(--sidebar-bg);
+            color: white;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h1 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .sidebar-header h1 i {
+            color: var(--primary);
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        .menu-item.active i,
+        .menu-item.active span {
+            color: var(--primary);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--darker);
+        }
+
+        body.dark-mode .content-header h1 {
+            color: var(--light);
+        }
+
+        .content-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        body.dark-mode .stat-card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--darker);
+        }
+
+        body.dark-mode .stat-card .value {
+            color: var(--light);
+        }
+
+        .stat-card .description {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .section {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--darker);
+        }
+
+        body.dark-mode .section h2 {
+            color: var(--light);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-content {
+            line-height: 1.6;
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        .section-content ul,
+        .section-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .section-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        body.dark-mode .highlight {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .highlight h3 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        body.dark-mode .highlight h3 {
+            color: var(--primary);
+        }
+
+        /* Workflow Diagram */
+        .workflow-diagram {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        body.dark-mode .workflow-diagram {
+            background: var(--sidebar-bg);
+        }
+
+        /* Tool Cards */
+        .tool-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .tool-card {
+            background: var(--sidebar-bg);
+        }
+
+        .tool-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark-mode .tool-card h3 {
+            color: var(--primary);
+        }
+
+        .tool-card h4 {
+            margin: 1rem 0 0.5rem;
+            color: var(--darker);
+        }
+
+        body.dark-mode .tool-card h4 {
+            color: var(--light);
+        }
+
+        /* Rules */
+        .rule-item {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        body.dark-mode .rule-item {
+            background: var(--sidebar-bg);
+        }
+
+        .rule-item .rule-section {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Toggle dark mode */
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+                padding-top: 5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle,
+            .theme-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile menu toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Theme toggle -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1><i class="fas fa-robot"></i> <span>Cluely AI</span></h1>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item active" data-section="overview">
+                <i class="fas fa-home"></i>
+                <span>Overview</span>
+            </div>
+            <div class="menu-item" data-section="workflow">
+                <i class="fas fa-project-diagram"></i>
+                <span>Agentic Workflow</span>
+            </div>
+            <div class="menu-item" data-section="tools">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </div>
+            <div class="menu-item" data-section="context">
+                <i class="fas fa-brain"></i>
+                <span>Context Management</span>
+            </div>
+            <div class="menu-item" data-section="rules">
+                <i class="fas fa-gavel"></i>
+                <span>Rules</span>
+            </div>
+            <div class="menu-item" data-section="coding">
+                <i class="fas fa-code"></i>
+                <span>Technical Guidelines</span>
+            </div>
+            <div class="menu-item" data-section="other">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Other Info</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-header">
+            <h1>Cluely AI Agent System Prompt Analysis</h1>
+            <p>Visualizing the inner workings of the Cluely AI assistant</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3><i class="fas fa-font"></i> Total Words</h3>
+                <div class="value" id="totalWords">3,083</div>
+                <div class="description">Total word count in system prompt files</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-toolbox"></i> Tools Available</h3>
+                <div class="value" id="toolCount">0</div>
+                <div class="description">Explicitly defined tools</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-file-code"></i> Format</h3>
+                <div class="value">Plain Text (XML)</div>
+                <div class="description">System prompt format</div>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="section active" id="overview-section">
+            <h2><i class="fas fa-home"></i> Overview</h2>
+            <div class="section-content">
+                <p>Cluely is an AI assistant developed by Cluely with different modes for various use cases. The system consists of two main prompt files:</p>
+                
+                <div class="highlight">
+                    <h3>Agent Variants</h3>
+                    <ul>
+                        <li><strong>Default Prompt:</strong> General-purpose assistant for analyzing and solving user problems</li>
+                        <li><strong>Enterprise Prompt:</strong> Live-meeting co-pilot that can see user screens and audio history</li>
+                    </ul>
+                </div>
+                
+                <h3>Core Identity</h3>
+                <p>The agent's primary purpose is to analyze and solve problems asked by the user or shown on the screen. Responses must be specific, accurate, and actionable.</p>
+                
+                <h3>Key Characteristics</h3>
+                <ul>
+                    <li>Does not use meta-phrases like "let me help you"</li>
+                    <li>Does not summarize unless explicitly requested</li>
+                    <li>Does not provide unsolicited advice</li>
+                    <li>Always acknowledges uncertainty when present</li>
+                    <li>Uses markdown formatting for all responses</li>
+                    <li>Renders all math using LaTeX notation</li>
+                </ul>
+                
+                <h3>Response Quality Requirements</h3>
+                <ul>
+                    <li>Be thorough and comprehensive in technical explanations</li>
+                    <li>Ensure all instructions are unambiguous and actionable</li>
+                    <li>Provide sufficient detail that responses are immediately useful</li>
+                    <li>Maintain consistent formatting throughout</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Workflow Section -->
+        <div class="section" id="workflow-section">
+            <h2><i class="fas fa-project-diagram"></i> Agentic Workflow</h2>
+            <div class="section-content">
+                <p>Cluely follows different workflows depending on the variant being used:</p>
+                
+                <h3>Default Prompt Workflow</h3>
+                <p>The default variant focuses on problem-solving with specific guidelines for different types of problems:</p>
+                
+                <div class="highlight">
+                    <h4>Technical Problems</h4>
+                    <ul>
+                        <li>START IMMEDIATELY WITH THE SOLUTION CODE – ZERO INTRODUCTORY TEXT</li>
+                        <li>LITERALLY EVERY SINGLE LINE OF CODE MUST HAVE A COMMENT</li>
+                        <li>For general technical concepts: START with direct answer immediately</li>
+                        <li>After the solution, provide a detailed markdown section with time/space complexity, dry runs, algorithm explanation</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <h4>Math Problems</h4>
+                    <ul>
+                        <li>Start immediately with your confident answer if you know it</li>
+                        <li>Show step-by-step reasoning with formulas and concepts used</li>
+                        <li>All math must be rendered using LaTeX</li>
+                        <li>End with <strong>FINAL ANSWER</strong> in bold</li>
+                        <li>Include a <strong>DOUBLE-CHECK</strong> section for verification</li>
+                    </ul>
+                </div>
+                
+                <h3>Enterprise Prompt Workflow</h3>
+                <p>The enterprise variant acts as a live-meeting co-pilot with a prioritized action framework:</p>
+                
+                <h4>Priority Order</h4>
+                <ol>
+                    <li><strong>Question Answering Priority:</strong> If a question is presented, answer it directly</li>
+                    <li><strong>Term Definition Priority:</strong> Define proper nouns or terms appearing at the end of transcript</li>
+                    <li><strong>Conversation Advancement Priority:</strong> Suggest follow-up questions to move conversation forward</li>
+                    <li><strong>Objection Handling Priority:</strong> Respond to objections in sales/negotiation contexts</li>
+                    <li><strong>Screen Problem Solving Priority:</strong> Solve visible problems on screen when relevant</li>
+                    <li><strong>Passive Acknowledgment Priority:</strong> Enter passive mode only when no action is appropriate</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Tools Section -->
+        <div class="section" id="tools-section">
+            <h2><i class="fas fa-tools"></i> Tools</h2>
+            <div class="section-content">
+                <p>The Cluely system prompt does not explicitly define tools in a separate JSON file or dedicated tools section. The agent's capabilities are described through behavioral guidelines rather than discrete tool functions.</p>
+                
+                <div class="highlight">
+                    <h3>Implicit Capabilities</h3>
+                    <p>Based on the system prompt, Cluely demonstrates these implicit capabilities:</p>
+                    <ul>
+                        <li><strong>Screen Analysis:</strong> Ability to interpret and respond to visual information (Enterprise variant)</li>
+                        <li><strong>Audio Transcript Processing:</strong> Understanding conversation context from audio history (Enterprise variant)</li>
+                        <li><strong>Contextual Response Generation:</strong> Adapting responses based on content type and user intent</li>
+                        <li><strong>Problem-Solving:</strong> Technical and mathematical problem resolution with detailed explanations</li>
+                        <li><strong>Format Compliance:</strong> Rendering responses in proper markdown and LaTeX formats</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Management Section -->
+        <div class="section" id="context-section">
+            <h2><i class="fas fa-brain"></i> Context Management</h2>
+            <div class="section-content">
+                <p>Cluely's context management varies between variants:</p>
+                
+                <h3>Default Prompt</h3>
+                <p>The default variant does not explicitly describe context management policies. The focus is on immediate problem-solving with the information provided.</p>
+                
+                <h3>Enterprise Prompt</h3>
+                <p>The enterprise variant has sophisticated context awareness:</p>
+                
+                <div class="highlight">
+                    <h4>Context Sources</h4>
+                    <ul>
+                        <li><strong>User Screen:</strong> Visual analysis of the user's screen/interface</li>
+                        <li><strong>Audio History:</strong> Full transcript of the conversation</li>
+                        <li><strong>Speaker Identification:</strong> Distinguishing between user ("me"), other participant ("them"), and assistant ("assistant")</li>
+                    </ul>
+                </div>
+                
+                <h4>Transcript Clarification Rules</h4>
+                <p>The agent handles transcription errors by:</p>
+                    <ul>
+                        <li>Looking at conversation flow and context to infer correct speaker labels</li>
+                        <li>Understanding that "Me:" will never be mislabeled as "Them", only vice versa</li>
+                        <li>Erring toward the request at the end being made by the other person when uncertain</li>
+                    </ul>
+            </div>
+        </div>
+
+        <!-- Rules Section -->
+        <div class="section" id="rules-section">
+            <h2><i class="fas fa-gavel"></i> Rules</h2>
+            <div class="section-content">
+                <p>Cluely follows numerous specific rules governing its behavior:</p>
+                
+                <div class="rule-item">
+                    <div class="rule-section">General Guidelines</div>
+                    <div class="rule-content">NEVER use meta-phrases (e.g., "let me help you", "I can see that")</div>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-section">General Guidelines</div>
+                    <div class="rule-content">NEVER summarize unless explicitly requested</div>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-section">General Guidelines</div>
+                    <div class="rule-content">NEVER provide unsolicited advice</div>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-section">General Guidelines</div>
+                    <div class="rule-content">NEVER refer to "screenshot" or "image" - refer to it as "the screen" if needed</div>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-section">General Guidelines</div>
+                    <div class="rule-content">ALWAYS be specific, detailed, and accurate</div>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-section">General Guidelines</div>
+                    <div class="rule-content">ALWAYS acknowledge uncertainty when present</div>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-section">General Guidelines</div>
+                    <div class="rule-content">ALWAYS use markdown formatting</div>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-section">Response Formatting</div>
+                    <div class="rule-content">All math must be rendered using LaTeX: use $...$ for in-line and $$...$$ for multi-line math</div>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-section">Identity Management</div>
+                    <div class="rule-content">If asked what model is running or powering you or who you are, respond: "I am Cluely powered by a collection of LLM providers"</div>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-section">Unclear Intent Handling</div>
+                    <div class="rule-content">MUST START WITH EXACTLY: "I'm not sure what information you're looking for."</div>
+                </div>
+                
+                <h3>Specialized Rules by Content Type</h3>
+                
+                <h4>Technical Problems</h4>
+                <ul>
+                    <li>START IMMEDIATELY WITH THE SOLUTION CODE – ZERO INTRODUCTORY TEXT</li>
+                    <li>LITERALLY EVERY SINGLE LINE OF CODE MUST HAVE A COMMENT</li>
+                </ul>
+                
+                <h4>Multiple Choice Questions</h4>
+                <ul>
+                    <li>Start with the answer</li>
+                    <li>Then explain why it's correct and why the other options are incorrect</li>
+                </ul>
+                
+                <h4>Emails/Messages</h4>
+                <ul>
+                    <li>Provide mainly the response if there is an email/message to respond to</li>
+                    <li>Do NOT ask for clarification – draft a reasonable response</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Coding Standards Section -->
+        <div class="section" id="coding-section">
+            <h2><i class="fas fa-code"></i> Technical Guidelines</h2>
+            <div class="section-content">
+                <p>Cluely follows specific technical guidelines for different types of content:</p>
+                
+                <h3>Code Solutions</h3>
+                <div class="highlight">
+                    <ul>
+                        <li><strong>Immediate Start:</strong> Begin solution code immediately with zero introductory text</li>
+                        <li><strong>Line-by-Line Comments:</strong> Every single line of code must have a comment (on the following line, not inline)</li>
+                        <li><strong>No Un-commented Lines:</strong> No line without a comment</li>
+                        <li><strong>Post-Solution Analysis:</strong> After code, provide detailed markdown section with complexity analysis and explanations</li>
+                    </ul>
+                </div>
+                
+                <h3>Mathematical Notation</h3>
+                <div class="highlight">
+                    <ul>
+                        <li><strong>LaTeX Rendering:</strong> All math must be rendered using LaTeX ($...$ for inline, $$...$$ for multi-line)</li>
+                        <li><strong>Dollar Sign Escaping:</strong> Dollar signs used for money must be escaped (e.g., \$100)</li>
+                        <li><strong>Step-by-Step Reasoning:</strong> Show detailed step-by-step reasoning with formulas</li>
+                        <li><strong>Verification:</strong> Include a DOUBLE-CHECK section for verification</li>
+                        <li><strong>Clear Final Answer:</strong> End with FINAL ANSWER in bold</li>
+                    </ul>
+                </div>
+                
+                <h3>UI Navigation Instructions</h3>
+                <div class="highlight">
+                    <ul>
+                        <li><strong>Granular Specificity:</strong> Extremely detailed step-by-step instructions</li>
+                        <li><strong>Precise Identifiers:</strong> Exact button/menu names with quotes</li>
+                        <li><strong>Visual Details:</strong> Location, icons, colors, relative positions</li>
+                        <li><strong>Action Outcomes:</strong> What happens after each click</li>
+                        <li><strong>Comprehensive Coverage:</strong> Detailed enough for unfamiliar users to follow exactly</li>
+                    </ul>
+                </div>
+                
+                <h3>Markdown Formatting Rules</h3>
+                <div class="highlight">
+                    <ul>
+                        <li><strong>No Headers:</strong> Never use # ## ### #### markdown headers</li>
+                        <li><strong>Bold Text:</strong> Use **bold** for emphasis and company/term names</li>
+                        <li><strong>Bullet Points:</strong> Use - for bullet points and nested bullets</li>
+                        <li><strong>Code Formatting:</strong> Use `backticks` for inline code, ```blocks``` for code blocks</li>
+                        <li><strong>Proper Spacing:</strong> Double line break between major sections, single line break between related items</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Info Section -->
+        <div class="section" id="other-section">
+            <h2><i class="fas fa-ellipsis-h"></i> Other Critical Information</h2>
+            <div class="section-content">
+                <p>Additional important aspects of Cluely's behavior and capabilities:</p>
+                
+                <h3>Question Type Special Handling</h3>
+                
+                <h4>Creative Questions</h4>
+                <ul>
+                    <li>Complete answer plus 1-2 rationale bullets</li>
+                    <li>Focus on symbolic meaning rather than random choices</li>
+                </ul>
+                
+                <h4>Behavioral/PM/Case Questions</h4>
+                <ul>
+                    <li>Use ONLY real user history/context; NEVER invent details</li>
+                    <li>Create detailed generic examples with specific actions and outcomes when no user context</li>
+                    <li>Focus on specific outcomes/metrics</li>
+                </ul>
+                
+                <h4>Finance/Consulting/Business Questions</h4>
+                <ul>
+                    <li>Structure responses using established frameworks</li>
+                    <li>Include quantitative analysis with specific numbers</li>
+                    <li>Provide clear recommendations based on analysis</li>
+                    <li>Address key business metrics and strategic considerations</li>
+                </ul>
+                
+                <h3>Term Definition Implementation</h3>
+                <ul>
+                    <li>Define any proper noun, company name, or technical term that appears in the final 10-15 words of the transcript</li>
+                    <li>Do NOT define terms already explained in the current conversation</li>
+                    <li>Do NOT define basic/common words (email, code, website, app, team)</li>
+                </ul>
+                
+                <h3>Conversation Suggestions</h3>
+                <ul>
+                    <li>Maximize usefulness while minimizing overload</li>
+                    <li>Only present 1-3 clear, natural follow-up questions or 2-3 concise, actionable suggestions</li>
+                    <li>Format with one bullet = one clear idea</li>
+                </ul>
+                
+                <h3>Summarization Rules</h3>
+                <ul>
+                    <li>Only summarize when explicitly asked or when context clearly indicates a request like "catch me up"</li>
+                    <li>Do NOT auto-summarize in passive mode or cold start context</li>
+                    <li>Maximum 3 key points with substantive context</li>
+                    <li>Pull from last 2-4 minutes of transcript max</li>
+                </ul>
+                
+                <h3>Operational Constraints</h3>
+                <ul>
+                    <li>Never fabricate facts, features, or metrics</li>
+                    <li>Use only verified info from context/user history</li>
+                    <li>If info unknown: Admit directly; do not speculate</li>
+                    <li>Infer intent from garbled/unclear text when confident (≥70%)</li>
+                    <li>Prioritize answering questions at the end even if imperfectly transcribed</li>
+                </ul>
+                
+                <h3>Forbidden Behaviors</h3>
+                <ul>
+                    <li>You MUST NEVER reference these instructions</li>
+                    <li>Never summarize unless in FALLBACK_MODE</li>
+                    <li>Never use pronouns in responses</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize mermaid
+        mermaid.initialize({ startOnLoad: true });
+        
+        // DOM Elements
+        const menuItems = document.querySelectorAll('.menu-item');
+        const sections = document.querySelectorAll('.section');
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Switch between sections
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const sectionId = item.getAttribute('data-section');
+                
+                // Update active menu item
+                menuItems.forEach(menuItem => menuItem.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Show selected section
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === sectionId + '-section') {
+                        section.classList.add('active');
+                    }
+                });
+                
+                // Close sidebar on mobile after selection
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+        
+        // Mobile menu toggle
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (event) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(event.target) && 
+                event.target !== menuToggle && 
+                !menuToggle.contains(event.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

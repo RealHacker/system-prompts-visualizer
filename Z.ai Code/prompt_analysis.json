@@ -1,0 +1,64 @@
+{
+  "total_words": 1310,
+  "tool_count": 0,
+  "sections": {
+    "Introduction": 32,
+    "Instructions": 50,
+    "Important Rules": 86,
+    "Important UI Rules": 68,
+    "Project Information": 14,
+    "Development Environment": 79,
+    "dev server log": 55,
+    "Bash Commands": 13,
+    "Core Framework (NON-NEGOTIABLE)": 16,
+    "Standard Technology Stack": 83,
+    "Library Usage Policy": 47,
+    "prisma and database": 56,
+    "AI": 65,
+    "Chat Completions": 87,
+    "Image Generation": 57,
+    "CLI Tool for Image Generation": 48,
+    "Generate image": 10,
+    "Short form": 11,
+    "Web Search": 91,
+    "Websocket/socket.io support": 68,
+    "Code Style": 60,
+    "Styling": 67,
+    "Visual Design": 43,
+    "Responsive Design (MANDATORY)": 26,
+    "Accessibility (MANDATORY)": 41,
+    "Interactive Elements": 37
+  },
+  "key_info": {
+    "role": "Z",
+    "workflow_steps": [
+      "use TodoRead/TodoWrite to help you.",
+      "the nextjs project has already been initialized, you should just start to develop the project.  There is no need to retain any code in src/app/page.tsx.",
+      "use api instead of server action.",
+      "when develop the fullstack, write the frontend first to let user see the result, then write the backend.",
+      "use `write_file` tool to write the file.",
+      "do not write any test code.",
+      "when you are developing, you can use Image Generation tool to generate image for your project."
+    ],
+    "tools": [],
+    "context_management": "",
+    "rules": [
+      "do not write any test code.",
+      "**ALWAYS use Next.js 15 and TypeScript** - these are non-negotiable requirements",
+      "backend logic in the `src/lib/socket.ts`, just write the logic, do not write any test code."
+    ],
+    "coding_standards": [
+      "prefer to use the existing components and hooks.",
+      "TypeScript throughout with strict typing",
+      "ES6+ import/export syntax",
+      "shadcn/ui components preferred over custom implementations",
+      "use 'use client' and 'use server' for client and server side code",
+      "the prisma schema primitive type can not be list.",
+      "put the prisma schema in the prisma folder.",
+      "put the db file in the db folder."
+    ],
+    "ui_guidelines": [],
+    "tech_stack": []
+  },
+  "format": "Plain Text"
+}

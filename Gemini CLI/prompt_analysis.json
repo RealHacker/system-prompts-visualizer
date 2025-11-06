@@ -1,0 +1,34 @@
+{
+  "total_words": 2737,
+  "section_word_counts": {
+    "Introduction": 32,
+    "Core Mandates": 356,
+    "Software Engineering Tasks": 281,
+    "New Applications": 572,
+    "Tone and Style (CLI Interaction)": 151,
+    "Security and Safety Rules": 85,
+    "Tool Usage": 323,
+    "Interaction Details": 24,
+    "Outside of Sandbox": 59,
+    "Git Repository": 210,
+    "Examples (Illustrating Tone and Workflow)": 578,
+    "Final Reminder": 66
+  },
+  "sections": [
+    "Introduction",
+    "Core Mandates",
+    "Software Engineering Tasks",
+    "New Applications",
+    "Tone and Style (CLI Interaction)",
+    "Security and Safety Rules",
+    "Tool Usage",
+    "Interaction Details",
+    "Outside of Sandbox",
+    "Git Repository",
+    "Examples (Illustrating Tone and Workflow)",
+    "Final Reminder"
+  ],
+  "tools_count": "unknown",
+  "workflow_steps_count": 4,
+  "rules_count": 0
+}

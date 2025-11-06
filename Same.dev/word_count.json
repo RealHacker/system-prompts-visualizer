@@ -1,0 +1,17 @@
+{
+  "section_counts": {
+    "Overview": 252,
+    "Service Policies": 182,
+    "Communication": 158,
+    "Tool Calling": 287,
+    "Parallel Tool Calls": 185,
+    "Memos": 155,
+    "Making Code Changes": 323,
+    "Web Development": 399,
+    "Web Design": 232,
+    "Debugging": 54,
+    "Website Cloning": 200,
+    "Task Agent": 132
+  },
+  "total_words": 2559
+}

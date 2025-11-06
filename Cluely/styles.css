@@ -1,0 +1,54 @@
+/* Additional custom styles for Cluely visualization */
+/* This file can be used to override or extend the embedded styles in the HTML file */
+
+.stats-grid {
+    gap: 1.5rem;
+}
+
+.stat-card {
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom colors for Cluely branding */
+:root {
+    --cluely-primary: #6366f1;
+    --cluely-secondary: #8b5cf6;
+    --cluely-accent: #ec4899;
+}
+
+.highlight {
+    border-left-color: var(--cluely-primary);
+}
+
+.rule-item {
+    border-left-color: var(--cluely-primary);
+}
+
+.tool-card h3 {
+    color: var(--cluely-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .section {
+        padding: 1.5rem;
+    }
+}

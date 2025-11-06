@@ -1,0 +1,21 @@
+{
+  "total_words": 2446,
+  "sections": {
+    "Question": 51,
+    "Task": 166,
+    "External context": 117,
+    "Tools": 733,
+    "Running terminal commands": 209,
+    "Coding": 156,
+    "Output formatting rules": 173,
+    "Large files": 122,
+    "Version control": 219,
+    "Secrets and terminal commands": 175,
+    "Task completion": 211
+  },
+  "subsections": {
+    "Simple tasks": "Task",
+    "Complex tasks": "Task",
+    "File Paths": "Output formatting rules"
+  }
+}

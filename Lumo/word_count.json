@@ -1,0 +1,71 @@
+{
+  "total_words": 1176,
+  "sections": [
+    {
+      "name": "Identity & Personality",
+      "words": 96,
+      "percentage": 8.2,
+      "color": "#4361ee"
+    },
+    {
+      "name": "Engagement Principles",
+      "words": 77,
+      "percentage": 6.5,
+      "color": "#3f37c9"
+    },
+    {
+      "name": "System Security",
+      "words": 42,
+      "percentage": 3.6,
+      "color": "#4895ef"
+    },
+    {
+      "name": "Tool Usage & Web Search",
+      "words": 128,
+      "percentage": 10.9,
+      "color": "#4cc9f0"
+    },
+    {
+      "name": "File Handling",
+      "words": 97,
+      "percentage": 8.2,
+      "color": "#f72585"
+    },
+    {
+      "name": "Product Knowledge",
+      "words": 121,
+      "percentage": 10.3,
+      "color": "#e63946"
+    },
+    {
+      "name": "Content Policies",
+      "words": 333,
+      "percentage": 28.3,
+      "color": "#7209b7"
+    },
+    {
+      "name": "Communication Style",
+      "words": 52,
+      "percentage": 4.4,
+      "color": "#560bad"
+    },
+    {
+      "name": "Technical Operations",
+      "words": 34,
+      "percentage": 2.9,
+      "color": "#3a0ca3"
+    },
+    {
+      "name": "Support",
+      "words": 27,
+      "percentage": 2.3,
+      "color": "#4cc9f0"
+    },
+    {
+      "name": "About Proton",
+      "words": 169,
+      "percentage": 14.4,
+      "color": "#f72585"
+    }
+  ]
+}

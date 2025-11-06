@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT5 System Prompt Visualizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar {
+            width: 320px;
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .sidebar-header {
+            padding: 0 2rem 2rem 2rem;
+            border-bottom: 1px solid #34495e;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ecf0f1;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.9rem;
+            color: #bdc3c7;
+            font-weight: 300;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin: 0;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 1rem 2rem;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: #34495e;
+            border-left-color: #3498db;
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: #34495e;
+            border-left-color: #e74c3c;
+            color: #fff;
+        }
+
+        .nav-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .content-header {
+            background: white;
+            padding: 2rem;
+            border-bottom: 1px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .content-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-subtitle {
+            font-size: 1rem;
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            color: #495057;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .tool-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .tool-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e74c3c;
+            margin-bottom: 0.75rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .tool-description {
+            color: #6c757d;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .tool-usage {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            margin-top: 1rem;
+        }
+
+        .tool-usage h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .rule-item {
+            background: white;
+            border-left: 4px solid #e74c3c;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        ul, ol {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .workflow-step {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workflow-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: rgba(255,255,255,0.3);
+        }
+
+        .context-item {
+            background: #f1f3f4;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .context-item h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 1rem 0;
+            }
+
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+
+            .nav-item {
+                flex-shrink: 0;
+            }
+
+            .nav-link {
+                padding: 0.75rem 1rem;
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 4px solid transparent;
+            }
+
+            .nav-link:hover,
+            .nav-link.active {
+                transform: none;
+                border-left: none;
+                border-bottom-color: #e74c3c;
+            }
+
+            .content {
+                height: auto;
+            }
+
+            .content-body {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar Styling */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #34495e;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #7f8c8d;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">GPT5 System Prompt</h1>
+                <p class="sidebar-subtitle">Visual Documentation</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#overview" class="nav-link active" data-section="overview">
+                        <div class="nav-section">
+                            <span class="nav-icon">📊</span>
+                            <span>Overview</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#workflow" class="nav-link" data-section="workflow">
+                        <div class="nav-section">
+                            <span class="nav-icon">⚙️</span>
+                            <span>Agentic Workflow</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tools" class="nav-link" data-section="tools">
+                        <div class="nav-section">
+                            <span class="nav-icon">🔧</span>
+                            <span>Tools</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#context" class="nav-link" data-section="context">
+                        <div class="nav-section">
+                            <span class="nav-icon">🧠</span>
+                            <span>Context Management</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#rules" class="nav-link" data-section="rules">
+                        <div class="nav-section">
+                            <span class="nav-icon">📋</span>
+                            <span>Rules</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#coding" class="nav-link" data-section="coding">
+                        <div class="nav-section">
+                            <span class="nav-icon">💻</span>
+                            <span>Coding Standards</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#other" class="nav-link" data-section="other">
+                        <div class="nav-section">
+                            <span class="nav-icon">📝</span>
+                            <span>Other Critical Info</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header class="content-header">
+                <h1 class="content-title">GPT5 System Prompt Analysis</h1>
+                <p class="content-subtitle">Comprehensive documentation and visualization</p>
+            </header>
+
+            <div class="content-body">
+                <!-- Overview Section -->
+                <div id="overview" class="section active">
+                    <div class="card">
+                        <h2 class="card-title">
+                            <span class="nav-icon">📊</span>
+                            Overview
+                        </h2>
+                        <div class="card-content">
+                            <p id="agent-role"></p>
+                            
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-value" id="word-count">2,256</div>
+                                    <div class="stat-label">Total Words</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="tool-count">7</div>
+                                    <div class="stat-label">Tools Defined</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="format-type">YAML-like</div>
+                                    <div class="stat-label">Format Type</div>
+                                </div>
+                            </div>
+
+                            <div id="metadata-info"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agentic Workflow Section -->
+                <div id="workflow" class="section">
+                    <div class="card">
+                        <h2 class="card-title">
+                            <span class="nav-icon">⚙️</span>
+                            Agentic Workflow
+                        </h2>
+                        <div class="card-content" id="workflow-content">
+                            <!-- Workflow steps will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools Section -->
+                <div id="tools" class="section">
+                    <div class="card">
+                        <h2 class="card-title">
+                            <span class="nav-icon">🔧</span>
+                            Available Tools
+                        </h2>
+                        <div class="card-content" id="tools-content">
+                            <!-- Tools will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Context Management Section -->
+                <div id="context" class="section">
+                    <div class="card">
+                        <h2 class="card-title">
+                            <span class="nav-icon">🧠</span>
+                            Context Management
+                        </h2>
+                        <div class="card-content" id="context-content">
+                            <!-- Context management info will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rules Section -->
+                <div id="rules" class="section">
+                    <div class="card">
+                        <h2 class="card-title">
+                            <span class="nav-icon">📋</span>
+                            Behavioral Rules
+                        </h2>
+                        <div class="card-content" id="rules-content">
+                            <!-- Rules will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coding Standards Section -->
+                <div id="coding" class="section">
+                    <div class="card">
+                        <h2 class="card-title">
+                            <span class="nav-icon">💻</span>
+                            Coding Standards & Guidelines
+                        </h2>
+                        <div class="card-content" id="coding-content">
+                            <!-- Coding standards will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Critical Info Section -->
+                <div id="other" class="section">
+                    <div class="card">
+                        <h2 class="card-title">
+                            <span class="nav-icon">📝</span>
+                            Other Critical Information
+                        </h2>
+                        <div class="card-content" id="other-content">
+                            <p>No additional critical information found in the system prompt.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Analysis data (embedded from the Python analysis)
+        const analysisData = {
+            "overview": {
+                "role": "You are ChatGPT, a large language model based on the GPT-5 model and trained by OpenAI. Knowledge cutoff: 2024-06 Current date: 2025-08-08",
+                "word_count": 2256,
+                "tool_count": 7,
+                "format": "YAML-like",
+                "knowledge_cutoff": "2024-06",
+                "current_date": "2025-08-08"
+            },
+            "agentic_workflow": [
+                "// Guidelines:",
+                "When you send a message containing Python code to python, it will be executed in a stateful Jupyter notebook environment. python will respond with the output of the execution or time out after 60.0 seconds. The drive at '/mnt/data' can be used to save and persist user files. Internet access for this session is disabled. Do not make external web requests or API calls as they will fail."
+            ],
+            "tools": {
+                "bio": {
+                    "description": "The `bio` tool allows you to persist information across conversations, so you can deliver more personalized and helpful responses over time. The corresponding user facing feature is known as \"memory\".",
+                    "parameters": "",
+                    "usage": "Send a message to the `bio` tool if:\n- The user is requesting for you to save or forget information.\n- Such a request could use a variety of phrases including, but not limited to: \"remember that...\", \"store this\", \"add to memory\", \"note that...\", \"forget that...\", \"delete this\", etc.\n- **Anytime** you determine that the user is requesting for you to save or forget information, you should **always** call the `bio` tool, even if the requested information has already been stored, appears extremely trivial or fleeting, etc.\n- **Anytime** you are unsure whether or not the user is requesting for you to save or forget information, you **must** ask the user for clarification in a follow-up message.\n- **Anytime** you are going to write a message to the user that includes a phrase such as \"noted\", \"got it\", \"I'll remember that\", or similar, you should make sure to call the `bio` tool first, before sending this message to the user.\n- The user has shared information that will be useful in future conversations and valid for a long time.\n- One indicator is if the user says something like \"from now on\", \"in the future\", \"going forward\", etc.\n- **Anytime** the user shares information that will likely be true for months or years, reason about whether it is worth saving in memory.\n- User information is worth saving in memory if it is likely to change your future responses in similar situations.",
+                    "examples": []
+                },
+                "canmore": {
+                    "description": "# The `canmore` tool creates and updates textdocs that are shown in a \"canvas\" next to the conversation",
+                    "parameters": "{\ncomments: {\npattern: string,\ncomment: string,\n}[],\n}\nEach `pattern` must be a valid Python regular expression (used with re.search).",
+                    "usage": "",
+                    "examples": []
+                },
+                "image_gen": {
+                    "description": "// The `image_gen` tool enables image generation from descriptions and editing of existing images based on specific instructions. Use it when:",
+                    "parameters": "",
+                    "usage": "",
+                    "examples": []
+                },
+                "python": {
+                    "description": "When you send a message containing Python code to python, it will be executed in a stateful Jupyter notebook environment. python will respond with the output of the execution or time out after 60.0 seconds. The drive at '/mnt/data' can be used to save and persist user files. Internet access for this session is disabled. Do not make external web requests or API calls as they will fail.",
+                    "parameters": "",
+                    "usage": "",
+                    "examples": []
+                },
+                "web": {
+                    "description": "Use the `web` tool to access up-to-date information from the web or when responding to the user requires information about their location. Some examples of when to use the `web` tool include:",
+                    "parameters": "",
+                    "usage": "- Local Information: Use the `web` tool to respond to questions that require information about the user's location, such as the weather, local businesses, or events.\n- Freshness: If up-to-date information on a topic could change or enhance the answer, call the `web` tool any time you would otherwise refuse to answer a question because your knowledge might be out of date.\n- Niche Information: If the answer would benefit from detailed information not widely known or understood (which might be found on the internet), such as details about a small neighborhood, a less well-known company, or arcane regulations, use web sources directly rather than relying on the distilled knowledge from pretraining.\n- Accuracy: If the cost of a small mistake or outdated information is high (e.g., using an outdated version of a software library or not knowing the date of the next game for a sports team), then use the `web` tool.\nIMPORTANT: Do not attempt to use the old `browser` tool or generate responses from the `browser` tool anymore, as it is now deprecated or disabled.\nThe `web` tool has the following commands:\n- `search()`: Issues a new query to a search engine and outputs the response.\n- `open_url(url: str)` Opens the given URL and displays it.",
+                    "examples": []
+                }
+            },
+            "context_management": [
+                "## bio\n\nThe `bio` tool allows you to persist information across conversations, so you can deliver more personalized and helpful responses over time. The corresponding user facing feature is known as \"memory\".\n\nAddress your message `to=bio` and write **just plain text**. Do **not** write JSON, under any circumstances. The plain text can be either:\n\n1. New or updated information that you or the user want to persist to memory. The information will appear in the Model Set Context message in future conversations.",
+                "Address your message `to=bio` and write **just plain text**. Do **not** write JSON, under any circumstances. The plain text can be either:\n\n1. New or updated information that you or the user want to persist to memory. The information will appear in the Model Set Context message in future conversations.\n2. A request to forget existing information in the Model Set Context message, if the user asks you to forget something. The request should stay as close as possible to the user's ask.\n\nThe full contents of your message `to=bio` are displayed to the user, which is why it is **imperative** that you write **only plain text** and **never write JSON**. Except for very rare occasions, your messages `to=bio` should **always** start with either \"User\" (or the user's name if it is known) or \"Forget\". Follow the style of these examples and, again, **never write JSON**:",
+                "- \"Forget that the user is shopping for an oven.\"\n\n#### When to use the `bio` tool\n\nSend a message to the `bio` tool if:\n- The user is requesting for you to save or forget information.\n  - Such a request could use a variety of phrases including, but not limited to: \"remember that...\", \"store this\", \"add to memory\", \"note that...\", \"forget that...\", \"delete this\", etc.",
+                "#### When to use the `bio` tool\n\nSend a message to the `bio` tool if:\n- The user is requesting for you to save or forget information.\n  - Such a request could use a variety of phrases including, but not limited to: \"remember that...\", \"store this\", \"add to memory\", \"note that...\", \"forget that...\", \"delete that\", etc.\n  - **Anytime** you determine that the user is requesting for you to save or forget information, you should **always** call the `bio` tool, even if the requested information has already been stored, appears extremely trivial or fleeting, etc.",
+                "- Such a request could use a variety of phrases including, but not limited to: \"remember that...\", \"store this\", \"add to memory\", \"note that...\", \"forget that...\", \"delete that\", etc.\n  - **Anytime** you message includes one of these phrases or similar, reason about whether they are requesting for you to save or forget information.\n  - **Anytime** you determine that the user is requesting for you to save or forget information, you should **always** call the `bio` tool, even if the requested information has already been stored, appears extremely trivial or fleeting, etc.\n  - **Anytime** you are unsure whether or not the user is requesting for you to save or forget information, you **must** ask the user for clarification in a follow-up message.\n  - **Anytime** you are going to write a message to the user that includes a phrase such as \"noted\", \"got it\", \"I'll remember that\", or similar, you should make sure to call the `bio` tool first, before sending this message to the user.\n- The user has shared information that will be useful in future conversations and valid for a long time.\n  - One indicator is if the user says something like \"from now on\", \"in the future\", \"going forward\", etc."
+            ],
+            "rules": [
+                "Do not reproduce song lyrics or any other copyrighted material, even if asked.",
+                "Do not end with opt-in questions or hedging closers. Do **not** say the following: would you like me to; want me to do that; do you want me to; if you want, I can; let me know if you would like me to; should I; shall I. Ask at most one necessary clarifying question at the start, not the end. If the next step is obvious, do it. Example of bad: I can write playful examples. would you like me to? Example of good: Here are three playful examples:..",
+                "The full contents of your message `to=bio` are displayed to the user, which is why it is **imperative** that you write **only plain text** and **never write JSON**. Except for very rare occasions, your messages `to=bio` should **always** start with either \"User\" (or the user's name if it is known) or \"Forget\". Follow the style of these examples and, again, **never write JSON**:",
+                "- \"User prefers concise, no-nonsense confirmations when they ask to double check a prior response.\"",
+                "- **Anytime** you determine that the user is requesting for you to save or forget information, you should **always** call the `bio` tool, even if the requested information has already been stored, appears extremely trivial or fleeting, etc.",
+                "**Never** store information that falls into the following **sensitive data** categories unless clearly requested by the user:",
+                "The exception to **all** of the above instructions, as stated at the top, is if the user explicitly requests that you save or forget information. In this case, you should **always** call the `bio` tool to respect their request.",
+                "Updates the current textdoc. Never use this function unless a textdoc has already been created.",
+                "ALWAYS REWRITE CODE TEXTDOCS (type=\"code/*\") USING A SINGLE UPDATE WITH \".*\" FOR THE PATTERN.",
+                "Document textdocs (type=\"document\") should typically be rewritten using \".*\", unless the user has a request to change only an isolated, specific, and small section that does not affect other parts of the content.",
+                "Comments on the current textdoc. Never use this function unless a textdoc has already been created.",
+                "// - Directly generate the image without reconfirmation or clarification, UNLESS the user asks for an image that will include a rendition of them. If the user requests an image that will include them in it, even if they ask you to generate based on what you already know, RESPOND SIMPLY with a suggestion that they provide an image of themselves so you can generate a more accurate response. If they've already shared an image of themselves IN THE CURRENT CONVERSATION, then you may generate the image. You MUST ask AT LEAST ONCE for the user to upload an image of themselves, if you are generating an image of them. This is VERY IMPORTANT -- do it with a natural clarifying question.",
+                "// - After each image generation, do not mention anything related to download. Do not summarize the image. Do not ask followup question. Do not say ANYTHING after you generate an image.",
+                "// - Always use this tool for image editing unless the user explicitly requests otherwise. Do not use the `python` tool for image editing unless specifically instructed.",
+                "When you send a message containing Python code to python, it will be executed in a stateful Jupyter notebook environment. python will respond with the output of the execution or time out after 60.0 seconds. The drive at '/mnt/data' can be used to save and persist user files. Internet access for this session is disabled. Do not make external web requests or API calls as they will fail."
+            ],
+            "coding_standards": [
+                "If the user asks to \"use canvas\", \"make a canvas\", or similar, you can assume it's a request to use `canmore` unless they are referring to the HTML canvas element.\n\nThis tool has 3 functions, listed below.",
+                "This tool has 3 functions, listed below.\n\n## `canmore.create_textdoc`",
+                "## `canmore.create_textdoc`\nCreates a new textdoc to display in the canvas. ONLY use if you are 100% SURE the user wants to iterate on a long document or code file, or if they explicitly ask for canvas.\n\nExpects a JSON string that adheres to this schema:",
+                "name: string,\n  type: \"document\" | \"code/python\" | \"code/javascript\" | \"code/html\" | \"code/java\" | ...,\n  content: string,\n}",
+                "For code languages besides those explicitly listed above, use \"code/languagename\", e.g. \"code/cpp\".\n\nTypes \"code/react\" and \"code/html\" can be previewed in ChatGPT's UI. Default to \"code/react\" if the user asks for code meant to be previewed (eg. app, game, website).",
+                "Types \"code/react\" and \"code/html\" can be previewed in ChatGPT's UI. Default to \"code/react\" if the user asks for code meant to be previewed (eg. app, game, website).\n\nWhen writing React:",
+                "When writing React:\n- Default export a React component.\n- Use Tailwind for styling, no import needed.",
+                "When writing React:\n- Default export a React component.\n- Use Tailwind for styling, no import needed.\n- All NPM libraries are available to use."
+            ],
+            "other_critical_info": []
+        };
+
+        // Navigation functionality
+        function initializeNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Remove active class from all nav links and sections
+                    navLinks.forEach(nl => nl.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Add active class to clicked nav link
+                    link.classList.add('active');
+                    
+                    // Show corresponding section
+                    const targetSection = link.getAttribute('data-section');
+                    document.getElementById(targetSection).classList.add('active');
+                    
+                    // Update URL without page reload
+                    window.location.hash = targetSection;
+                });
+            });
+
+            // Handle browser back/forward buttons
+            window.addEventListener('hashchange', () => {
+                const hash = window.location.hash.substring(1);
+                if (hash) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === hash) {
+                            link.classList.add('active');
+                        }
+                    });
+                    
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === hash) {
+                            section.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Populate overview section
+        function populateOverview() {
+            document.getElementById('agent-role').textContent = analysisData.overview.role;
+            document.getElementById('word-count').textContent = analysisData.overview.word_count.toLocaleString();
+            document.getElementById('tool-count').textContent = analysisData.overview.tool_count;
+            document.getElementById('format-type').textContent = analysisData.overview.format;
+
+            const metadataInfo = document.getElementById('metadata-info');
+            let metadataHTML = '<h3>System Information</h3><ul>';
+            if (analysisData.overview.knowledge_cutoff) {
+                metadataHTML += `<li><strong>Knowledge Cutoff:</strong> ${analysisData.overview.knowledge_cutoff}</li>`;
+            }
+            if (analysisData.overview.current_date) {
+                metadataHTML += `<li><strong>Current Date:</strong> ${analysisData.overview.current_date}</li>`;
+            }
+            metadataHTML += '</ul>';
+            metadataInfo.innerHTML = metadataHTML;
+        }
+
+        // Populate workflow section
+        function populateWorkflow() {
+            const workflowContent = document.getElementById('workflow-content');
+            
+            if (analysisData.agentic_workflow.length === 0) {
+                workflowContent.innerHTML = '<p>No specific workflow steps identified in the system prompt.</p>';
+                return;
+            }
+
+            let workflowHTML = '<div class="workflow-container">';
+            analysisData.agentic_workflow.forEach((step, index) => {
+                workflowHTML += `<div class="workflow-step"><strong>Step ${index + 1}:</strong> ${step}</div>`;
+            });
+            workflowHTML += '</div>';
+            workflowContent.innerHTML = workflowHTML;
+        }
+
+        // Populate tools section
+        function populateTools() {
+            const toolsContent = document.getElementById('tools-content');
+            const tools = analysisData.tools;
+
+            if (Object.keys(tools).length === 0) {
+                toolsContent.innerHTML = '<p>No tools defined in the system prompt.</p>';
+                return;
+            }
+
+            let toolsHTML = '';
+            Object.entries(tools).forEach(([toolName, toolData]) => {
+                toolsHTML += `
+                    <div class="tool-card">
+                        <div class="tool-name">${toolName}</div>
+                        <div class="tool-description">${toolData.description}</div>
+                        ${toolData.parameters ? `<div class="code-block">${toolData.parameters}</div>` : ''}
+                        ${toolData.usage ? `
+                            <div class="tool-usage">
+                                <h4>Usage Instructions:</h4>
+                                <div>${toolData.usage.replace(/\n/g, '<br>')}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            toolsContent.innerHTML = toolsHTML;
+        }
+
+        // Populate context management section
+        function populateContext() {
+            const contextContent = document.getElementById('context-content');
+            
+            if (analysisData.context_management.length === 0) {
+                contextContent.innerHTML = '<p>No specific context management policies found in the system prompt.</p>';
+                return;
+            }
+
+            let contextHTML = '';
+            analysisData.context_management.forEach((item, index) => {
+                contextHTML += `
+                    <div class="context-item">
+                        <h4>Context Management Policy ${index + 1}</h4>
+                        <div>${item.replace(/\n/g, '<br>')}</div>
+                    </div>
+                `;
+            });
+            contextContent.innerHTML = contextHTML;
+        }
+
+        // Populate rules section
+        function populateRules() {
+            const rulesContent = document.getElementById('rules-content');
+            
+            if (analysisData.rules.length === 0) {
+                rulesContent.innerHTML = '<p>No behavioral rules found in the system prompt.</p>';
+                return;
+            }
+
+            let rulesHTML = '';
+            analysisData.rules.forEach((rule, index) => {
+                rulesHTML += `<div class="rule-item"><strong>Rule ${index + 1}:</strong> ${rule}</div>`;
+            });
+            rulesContent.innerHTML = rulesHTML;
+        }
+
+        // Populate coding standards section
+        function populateCoding() {
+            const codingContent = document.getElementById('coding-content');
+            
+            if (analysisData.coding_standards.length === 0) {
+                codingContent.innerHTML = '<p>No coding standards or guidelines found in the system prompt.</p>';
+                return;
+            }
+
+            let codingHTML = '';
+            analysisData.coding_standards.forEach((standard, index) => {
+                codingHTML += `
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Coding Standard ${index + 1}</h4>
+                        <div>${standard.replace(/\n/g, '<br>')}</div>
+                    </div>
+                `;
+            });
+            codingContent.innerHTML = codingHTML;
+        }
+
+        // Initialize all content
+        function initializeContent() {
+            populateOverview();
+            populateWorkflow();
+            populateTools();
+            populateContext();
+            populateRules();
+            populateCoding();
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeNavigation();
+            initializeContent();
+        });
+    </script>
+</body>
+</html>
