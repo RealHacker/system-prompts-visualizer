@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Sandboxing Options</title>
+
+    <!-- Fonts: Archivo Black (display) + Space Grotesk (body) from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES (THEME) - Bold Signal Preset
+           Change these to change the whole look
+           =========================================== */
+        :root {
+            /* Colors - Bold Signal preset */
+            --bg-primary: #1a1a1a;
+            --bg-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            --card-bg: #FF5722;
+            --text-primary: #ffffff;
+            --text-on-card: #1a1a1a;
+
+            /* Typography — MUST use clamp() */
+            --font-display: "Archivo Black", sans-serif;
+            --font-body: "Space Grotesk", sans-serif;
+            --title-size: clamp(1.5rem, 5vw, 4rem);
+            --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+            --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+            --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+            --small-size: clamp(0.65rem, 1vw, 0.875rem);
+            --number-size: clamp(3rem, 8vw, 8rem);
+
+            /* Spacing — MUST use clamp() */
+            --slide-padding: clamp(1rem, 4vw, 4rem);
+            --content-gap: clamp(0.5rem, 2vw, 2rem);
+            --element-gap: clamp(0.25rem, 1vw, 1rem);
+
+            /* Animation */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-normal: 0.6s;
+        }
+
+        /* ===========================================
+           BASE STYLES
+           =========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+
+        /* ===========================================
+           VIEWPORT FITTING: MANDATORY BASE STYLES
+           Include this ENTIRE file in every presentation.
+           These styles ensure slides fit exactly in the viewport.
+           =========================================== */
+
+        /* 1. Lock html/body to viewport */
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        /* 2. Each slide = exact viewport height */
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile browsers */
+            overflow: hidden; /* CRITICAL: Prevent ANY overflow */
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* 3. Content container with flex for centering */
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden; /* Double-protection against overflow */
+            padding: var(--slide-padding);
+        }
+
+        /* 4. ALL typography uses clamp() for responsive scaling */
+        :root {
+            /* Titles scale from mobile to desktop */
+            --title-size: clamp(1.5rem, 5vw, 4rem);
+            --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+            --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+
+            /* Body text */
+            --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+            --small-size: clamp(0.65rem, 1vw, 0.875rem);
+
+            /* Spacing scales with viewport */
+            --slide-padding: clamp(1rem, 4vw, 4rem);
+            --content-gap: clamp(0.5rem, 2vw, 2rem);
+            --element-gap: clamp(0.25rem, 1vw, 1rem);
+        }
+
+        /* 5. Cards/containers use viewport-relative max sizes */
+        .card, .container, .content-box {
+            max-width: min(90vw, 1000px);
+            max-height: min(80vh, 700px);
+        }
+
+        /* 6. Lists auto-scale with viewport */
+        .feature-list, .bullet-list {
+            gap: clamp(0.4rem, 1vh, 1rem);
+        }
+
+        .feature-list li, .bullet-list li {
+            font-size: var(--body-size);
+            line-height: 1.4;
+        }
+
+        /* 7. Grids adapt to available space */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        /* 8. Images constrained to viewport */
+        img, .image-container {
+            max-width: 100%;
+            max-height: min(50vh, 400px);
+            object-fit: contain;
+        }
+
+        /* ===========================================
+           RESPONSIVE BREAKPOINTS
+           Aggressive scaling for smaller viewports
+           =========================================== */
+
+        /* Short viewports (< 700px height) */
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 3vw, 2rem);
+                --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+                --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+                --h2-size: clamp(1rem, 3vw, 1.75rem);
+            }
+        }
+
+        /* Very short viewports (< 600px height) */
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+                --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+                --title-size: clamp(1.1rem, 4vw, 2rem);
+                --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+            }
+
+            /* Hide non-essential elements */
+            .nav-dots, .keyboard-hint, .decorative {
+                display: none;
+            }
+        }
+
+        /* Extremely short (landscape phones, < 500px height) */
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: clamp(0.4rem, 2vw, 1rem);
+                --title-size: clamp(1rem, 3.5vw, 1.5rem);
+                --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+                --body-size: clamp(0.65rem, 1vw, 0.85rem);
+            }
+        }
+
+        /* Narrow viewports (< 600px width) */
+        @media (max-width: 600px) {
+            :root {
+                --title-size: clamp(1.25rem, 7vw, 2.5rem);
+            }
+
+            /* Stack grids vertically */
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===========================================
+           REDUCED MOTION
+           Respect user preferences
+           =========================================== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+        /* ===========================================
+           BOLD SIGNAL PRESET - SPECIFIC STYLES
+           =========================================== */
+
+        /* Slide background with gradient */
+        .slide {
+            background: var(--bg-gradient);
+        }
+
+        /* Title slide special layout */
+        .title-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr auto;
+            position: relative;
+        }
+
+        /* Large section numbers - Bold Signal signature */
+        .slide-number {
+            position: absolute;
+            top: var(--slide-padding);
+            left: var(--slide-padding);
+            font-family: var(--font-display);
+            font-size: var(--number-size);
+            color: rgba(255, 87, 34, 0.15);
+            line-height: 1;
+            z-index: 0;
+        }
+
+        /* Orange card element - Bold Signal signature */
+        .card-accent {
+            background: var(--card-bg);
+            color: var(--text-on-card);
+            padding: clamp(1rem, 3vw, 2.5rem);
+            border-radius: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation breadcrumbs top-right */
+        .nav-breadcrumb {
+            position: absolute;
+            top: var(--slide-padding);
+            right: var(--slide-padding);
+            font-size: var(--small-size);
+            opacity: 0.5;
+            z-index: 2;
+        }
+
+        /* Typography styles */
+        h1 {
+            font-family: var(--font-display);
+            font-size: var(--title-size);
+            line-height: 1.1;
+            margin-bottom: var(--element-gap);
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            line-height: 1.2;
+            margin-bottom: var(--element-gap);
+        }
+
+        h3 {
+            font-family: var(--font-body);
+            font-size: var(--h3-size);
+            font-weight: 700;
+            margin-bottom: var(--element-gap);
+        }
+
+        p, li {
+            font-size: var(--body-size);
+            line-height: 1.6;
+            max-width: 65ch;
+        }
+
+        li {
+            margin-left: 1.5em;
+        }
+
+        /* Code styling */
+        code {
+            font-family: "Courier New", monospace;
+            background: rgba(255, 87, 34, 0.2);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.4);
+            padding: var(--element-gap);
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: min(40vh, 350px);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            max-width: 900px;
+            border-collapse: collapse;
+            font-size: var(--body-size);
+        }
+
+        th {
+            background: var(--card-bg);
+            color: var(--text-on-card);
+            padding: 0.75em 1em;
+            text-align: left;
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+        }
+
+        td {
+            padding: 0.75em 1em;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===========================================
+           ANIMATIONS
+           Trigger via .visible class (added by JS on scroll)
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition:
+                opacity var(--duration-normal) var(--ease-out-expo),
+                transform var(--duration-normal) var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger children for sequential reveal */
+        .reveal:nth-child(1) { transition-delay: 0.1s; }
+        .reveal:nth-child(2) { transition-delay: 0.2s; }
+        .reveal:nth-child(3) { transition-delay: 0.3s; }
+        .reveal:nth-child(4) { transition-delay: 0.4s; }
+        .reveal:nth-child(5) { transition-delay: 0.5s; }
+        .reveal:nth-child(6) { transition-delay: 0.6s; }
+
+        /* Special reveal for cards */
+        .reveal-card {
+            opacity: 0;
+            transform: scale(0.95);
+            transition:
+                opacity var(--duration-normal) var(--ease-out-expo),
+                transform var(--duration-normal) var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal-card {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ===========================================
+           NAVIGATION DOTS
+           =========================================== */
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--card-bg);
+            transform: scale(1.3);
+        }
+
+        /* ===========================================
+           PROGRESS BAR
+           =========================================== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--card-bg);
+            z-index: 1001;
+            transition: width 0.3s ease;
+        }
+
+        /* ===========================================
+           KEYBOARD HINT
+           =========================================== */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--small-size);
+            opacity: 0.3;
+            z-index: 1000;
+        }
+
+        /* ===========================================
+           LAYOUT HELPERS
+           =========================================== */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--content-gap);
+            max-height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .flex-row {
+            display: flex;
+            gap: var(--content-gap);
+            align-items: start;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Orange accent text */
+        .accent {
+            color: var(--card-bg);
+        }
+
+        /* Subtle text */
+        .muted {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Navigation dots -->
+    <nav class="nav-dots" id="navDots"></nav>
+
+    <!-- Keyboard hint -->
+    <div class="keyboard-hint">Use arrow keys or space to navigate</div>
+
+    <!-- ===========================================
+         SLIDE 1: Title Slide
+         =========================================== -->
+    <section class="slide title-slide" id="slide-1">
+        <div class="nav-breadcrumb reveal">Agent Security</div>
+        <div class="slide-content">
+            <h1 class="reveal">Agent Sandboxing<br><span class="accent">Options</span></h1>
+            <p class="reveal">A guide to isolating local AI agents on Windows & Mac</p>
+        </div>
+        <div class="nav-breadcrumb" style="top: auto; bottom: var(--slide-padding);">Teaching Presentation</div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 2: What is Sandboxing?
+         =========================================== -->
+    <section class="slide" id="slide-2">
+        <div class="slide-number">01</div>
+        <div class="nav-breadcrumb reveal">Introduction</div>
+        <div class="slide-content">
+            <h2 class="reveal">What is Sandboxing?</h2>
+            <div class="card-accent reveal-card" style="max-width: 800px;">
+                <p style="font-size: var(--body-size); line-height: 1.7;">
+                    Sandboxing isolates arbitrary code execution from the host system using
+                    <span class="accent" style="color: var(--text-on-card); font-weight: 700;">virtualization, containerization, or specialized secure runtimes</span>.
+                </p>
+                <ul class="bullet-list" style="margin-top: var(--element-gap); color: var(--text-on-card);">
+                    <li class="reveal">Protects your machine from untrusted AI-generated code</li>
+                    <li class="reveal">Limits what processes can access (files, network, memory)</li>
+                    <li class="reveal">Essential for running local agents safely</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 3: The Kernel Concept
+         =========================================== -->
+    <section class="slide" id="slide-3">
+        <div class="slide-number">02</div>
+        <div class="nav-breadcrumb reveal">Fundamentals</div>
+        <div class="slide-content">
+            <h2 class="reveal">The Kernel: The Core Concept</h2>
+            <div class="grid-2" style="max-height: 100%;">
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">What is a Kernel?</h3>
+                    <p>The kernel is the core of the OS — the only software that can directly talk to hardware (CPU, memory, disk, network).</p>
+                    <p style="margin-top: var(--element-gap);" class="muted">Everything else lives in "userspace" and asks the kernel for permission via <code>syscall</code>.</p>
+                </div>
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">The Security Battleground</h3>
+                    <p><strong>Key question:</strong> Who can make what syscalls, and how strictly are they filtered?</p>
+                    <ul class="bullet-list" style="margin-top: var(--element-gap);">
+                        <li>Shared kernel = potential escape risk</li>
+                        <li>Separate kernel = hardware-level isolation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 4: Docker - Shared Kernel
+         =========================================== -->
+    <section class="slide" id="slide-4">
+        <div class="slide-number">03</div>
+        <div class="nav-breadcrumb reveal">Containerization</div>
+        <div class="slide-content">
+            <h2 class="reveal">Docker: The Shared-Kernel Baseline</h2>
+            <div class="reveal" style="max-width: 800px;">
+                <p>Docker uses Linux <code>namespaces</code> and <code>cgroups</code> to create isolated user-space environments.</p>
+            </div>
+            <div class="grid-2" style="margin-top: var(--content-gap); max-height: 100%;">
+                <div class="card-accent reveal-card" style="padding: clamp(0.75rem, 2vw, 1.5rem);">
+                    <h3 style="color: var(--text-on-card); font-size: var(--h3-size);">Pros</h3>
+                    <ul style="color: var(--text-on-card);">
+                        <li>Fast iteration</li>
+                        <li>Great for trusted workflows</li>
+                        <li>Easy to use</li>
+                    </ul>
+                </div>
+                <div class="card-accent reveal-card" style="padding: clamp(0.75rem, 2vw, 1.5rem);">
+                    <h3 style="color: var(--text-on-card); font-size: var(--h3-size);">Cons</h3>
+                    <ul style="color: var(--text-on-card);">
+                        <li><strong>Shares host kernel</strong></li>
+                        <li>Container escape is possible</li>
+                        <li>Not designed for untrusted code</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 5: Claude Code Sandbox
+         =========================================== -->
+    <section class="slide" id="slide-5">
+        <div class="slide-number">04</div>
+        <div class="nav-breadcrumb reveal">OS-Level Sandboxing</div>
+        <div class="slide-content">
+            <h2 class="reveal">Claude Code's Sandbox: OS-Level Rules</h2>
+            <div class="reveal" style="max-width: 850px;">
+                <p>Instead of a new environment, it <strong>constrains</strong> what commands can do using OS-level policy engines.</p>
+            </div>
+            <div class="grid-2" style="margin-top: var(--content-gap); max-height: 100%;">
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">macOS: Seatbelt</h3>
+                    <p>Uses <code>sandbox-exec</code> with custom policies. Same framework that locks down Safari and iOS apps.</p>
+                    <p class="muted" style="font-size: var(--small-size);">Example: "can read /usr/bin, write only to /my-project"</p>
+                </div>
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">Linux: bubblewrap</h3>
+                    <p>Namespace-based isolation (same as Flatpak). No root daemon needed — just a small setuid binary.</p>
+                    <p class="muted" style="font-size: var(--small-size);">Network filtering via proxy — all traffic goes through controlled gateway</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 6: KVM & Firecracker
+         =========================================== -->
+    <section class="slide" id="slide-6">
+        <div class="slide-number">05</div>
+        <div class="nav-breadcrumb reveal">Hardware Virtualization</div>
+        <div class="slide-content">
+            <h2 class="reveal">KVM & Firecracker: Hardware Virtualization</h2>
+            <div class="grid-2" style="max-height: 100%;">
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">KVM (Kernel-based VM)</h3>
+                    <p>Linux built-in feature that turns the OS into a <strong>hypervisor</strong>. Uses CPU hardware features (Intel VT-x, AMD-V) for real isolation.</p>
+                </div>
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">Firecracker (AWS)</h3>
+                    <p>Minimalist VMM that achieves <strong>VM-level isolation with container-like speed</strong>. Powers AWS Lambda.</p>
+                    <ul class="bullet-list" style="margin-top: var(--element-gap);">
+                        <li>Boots in milliseconds</li>
+                        <li>Each sandbox gets its own guest kernel</li>
+                        <li>Minimal attack surface</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 7: E2B
+         =========================================== -->
+    <section class="slide" id="slide-7">
+        <div class="slide-number">06</div>
+        <div class="nav-breadcrumb reveal">Cloud Sandboxing</div>
+        <div class="slide-content">
+            <h2 class="reveal">E2B: Firecracker as a Cloud Service</h2>
+            <div class="card-accent reveal-card" style="max-width: 850px; padding: clamp(1rem, 3vw, 2.5rem);">
+                <p style="font-size: var(--body-size); line-height: 1.7; color: var(--text-on-card);">
+                    Each sandbox runs inside a <strong>Firecracker microVM</strong>, giving VM-level isolation with low overhead.
+                </p>
+                <div class="grid-2" style="margin-top: var(--content-gap);">
+                    <div>
+                        <h3 style="font-size: var(--h3-size); color: var(--text-on-card);">Features</h3>
+                        <ul style="color: var(--text-on-card);">
+                            <li>LLM-agnostic (OpenAI, Anthropic, etc.)</li>
+                            <li>~150ms boot time</li>
+                            <li>Up to 24 hour run time</li>
+                            <li>Managed cloud API</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size: var(--h3-size); color: var(--text-on-card);">Developer Experience</h3>
+                        <pre style="background: rgba(0,0,0,0.2);"><code style="color: var(--text-on-card);">sandbox = Sandbox.create()
+sandbox.run_code("import pandas...")</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 8: CubeSandbox
+         =========================================== -->
+    <section class="slide" id="slide-8">
+        <div class="slide-number">07</div>
+        <div class="nav-breadcrumb reveal">Self-Hostable</div>
+        <div class="slide-content">
+            <h2 class="reveal">CubeSandbox: Faster & Self-Hostable</h2>
+            <div class="reveal" style="max-width: 800px;">
+                <p>High-performance sandbox built on <strong>RustVMM + KVM</strong>. Open source and E2B SDK-compatible.</p>
+            </div>
+            <div class="grid-2" style="margin-top: var(--content-gap); max-height: 100%;">
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">CoW Snapshots</h3>
+                    <p>Copy-on-Write technology: 1,000 sandboxes share memory pages until they write. <strong>&lt;5MB overhead per instance</strong>.</p>
+                    <p class="accent" style="margin-top: var(--element-gap); font-weight: 700;">Under 60ms cold start!</p>
+                </div>
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">eBPF Network Control</h3>
+                    <p>Extended Berkeley Packet Filter enforces strict network isolation at kernel level with fine-grained egress filtering.</p>
+                    <p class="muted" style="font-size: var(--small-size); margin-top: var(--element-gap);">Much faster than iptables — inspects every packet with near-zero overhead</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 9: Native OS Sandboxing
+         =========================================== -->
+    <section class="slide" id="slide-9">
+        <div class="slide-number">08</div>
+        <div class="nav-breadcrumb reveal">Native Tools</div>
+        <div class="slide-content">
+            <h2 class="reveal">Native OS Sandboxing Tools</h2>
+            <div class="grid-2" style="max-height: 100%;">
+                <div class="card-accent reveal-card" style="padding: clamp(0.75rem, 2vw, 1.5rem);">
+                    <h3 style="color: var(--text-on-card);">macOS: Seatbelt</h3>
+                    <ul style="color: var(--text-on-card);">
+                        <li>Restricts filesystem access</li>
+                        <li>Controls network access</li>
+                        <li>Used by Safari, iOS apps</li>
+                    </ul>
+                </div>
+                <div class="card-accent reveal-card" style="padding: clamp(0.75rem, 2vw, 1.5rem);">
+                    <h3 style="color: var(--text-on-card);">Windows: AppContainer</h3>
+                    <ul style="color: var(--text-on-card);">
+                        <li>Integrity levels + capability tokens</li>
+                        <li>Used by Edge, UWP apps</li>
+                        <li>Object Manager isolation</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="reveal muted" style="margin-top: var(--content-gap); font-size: var(--small-size);">
+                Similar to bubblewrap on Linux — process restriction, not VM isolation
+            </p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 10: Comparison Table
+         =========================================== -->
+    <section class="slide" id="slide-10">
+        <div class="slide-number">09</div>
+        <div class="nav-breadcrumb reveal">Comparison</div>
+        <div class="slide-content">
+            <h2 class="reveal">Sandboxing Options: Quick Comparison</h2>
+            <div class="reveal" style="overflow: hidden; max-height: calc(100% - 5rem);">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Solution</th>
+                            <th>Isolation Level</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="reveal">
+                            <td><strong>Docker</strong></td>
+                            <td>Process (shared kernel)</td>
+                            <td>Fast iteration, trusted workflows</td>
+                        </tr>
+                        <tr class="reveal">
+                            <td><strong>E2B</strong></td>
+                            <td>Secure MicroVM</td>
+                            <td>Secure code execution in agents</td>
+                        </tr>
+                        <tr class="reveal">
+                            <td><strong>VMs</strong></td>
+                            <td>Virtual Machine</td>
+                            <td>High isolation, untrusted agents</td>
+                        </tr>
+                        <tr class="reveal">
+                            <td><strong>Agent Safehouse</strong></td>
+                            <td>Native (macOS)</td>
+                            <td>macOS filesystem path permissions</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 11: Threat Models
+         =========================================== -->
+    <section class="slide" id="slide-11">
+        <div class="slide-number">10</div>
+        <div class="nav-breadcrumb reveal">Threat Models</div>
+        <div class="slide-content">
+            <h2 class="reveal">Different Threat Models</h2>
+            <div class="grid-2" style="max-height: 100%;">
+                <div class="card-accent reveal-card" style="padding: clamp(1rem, 2.5vw, 2rem);">
+                    <h3 style="color: var(--text-on-card);">Claude Code Sandbox</h3>
+                    <p style="color: var(--text-on-card);"><strong>Protects:</strong> You from your agent</p>
+                    <p style="color: var(--text-on-card); margin-top: var(--element-gap);">
+                        "Claude is on my machine, I don't want it touching my SSH keys or exfiltrating data."
+                    </p>
+                    <p style="color: var(--card-bg); font-weight: 700; margin-top: var(--element-gap);">Leash on a process you own</p>
+                </div>
+                <div class="card-accent reveal-card" style="padding: clamp(1rem, 2.5vw, 2rem);">
+                    <h3 style="color: var(--text-on-card);">E2B / CubeSandbox</h3>
+                    <p style="color: var(--text-on-card);"><strong>Protects:</strong> Your infra from users</p>
+                    <p style="color: var(--text-on-card); margin-top: var(--element-gap);">
+                        "I'm running a product where thousands submit code — need isolation between users."
+                    </p>
+                    <p style="color: var(--card-bg); font-weight: 700; margin-top: var(--element-gap);">Physically separate cars</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 12: Practical Tradeoff
+         =========================================== -->
+    <section class="slide" id="slide-12">
+        <div class="slide-number">11</div>
+        <div class="nav-breadcrumb reveal">Tradeoffs</div>
+        <div class="slide-content">
+            <h2 class="reveal">The Practical Tradeoff</h2>
+            <div style="max-width: 900px; overflow: hidden; max-height: calc(100% - 5rem);">
+                <table class="reveal">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Claude Code</th>
+                            <th>E2B / CubeSandbox</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="reveal"><td>Runs on</td><td>Your machine</td><td>Cloud / servers</td></tr>
+                        <tr class="reveal"><td>Protects</td><td>You from agent</td><td>Infra from users</td></tr>
+                        <tr class="reveal"><td>Multi-tenant</td><td>No</td><td>Yes</td></tr>
+                        <tr class="reveal"><td>Kernel exploit risk</td><td>Real (shared)</td><td>Contained (guest)</td></tr>
+                        <tr class="reveal"><td>Setup</td><td>Zero (built-in)</td><td>API call / self-host</td></tr>
+                        <tr class="reveal"><td>Cost</td><td>Free</td><td>Pay per use</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 13: Open Source Alternatives
+         =========================================== -->
+    <section class="slide" id="slide-13">
+        <div class="slide-number">12</div>
+        <div class="nav-breadcrumb reveal">Alternatives</div>
+        <div class="slide-content">
+            <h2 class="reveal">Open-Source E2B Alternatives</h2>
+            <div class="grid-2" style="max-height: 100%;">
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">True MicroVM Sandboxes</h3>
+                    <ul class="bullet-list">
+                        <li><strong>Microsandbox</strong> (YC) — local-first, libkrun</li>
+                        <li><strong>Zeroboot</strong> — sub-ms spawns (0.79ms!)</li>
+                    </ul>
+                </div>
+                <div class="reveal">
+                    <h3 style="color: var(--card-bg);">Container-Based</h3>
+                    <ul class="bullet-list">
+                        <li><strong>Daytona</strong> — sub-90ms, Docker default</li>
+                        <li><strong>OpenSandbox</strong> — Alibaba, K8s-native</li>
+                        <li><strong>DifySandbox</strong> — namespace-based</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 14: Three Tiers
+         =========================================== -->
+    <section class="slide" id="slide-14">
+        <div class="slide-number">13</div>
+        <div class="nav-breadcrumb reveal">Taxonomy</div>
+        <div class="slide-content">
+            <h2 class="reveal">Three Tiers of Sandboxing</h2>
+            <div style="max-width: 850px; overflow: hidden; max-height: calc(100% - 5rem);">
+                <table class="reveal">
+                    <thead>
+                        <tr>
+                            <th>Tier</th>
+                            <th>Solutions</th>
+                            <th>Isolation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="reveal">
+                            <td><strong>True MicroVM</strong></td>
+                            <td>E2B, CubeSandbox, Microsandbox, Zeroboot</td>
+                            <td>Own kernel per sandbox (hardware)</td>
+                        </tr>
+                        <tr class="reveal">
+                            <td><strong>Container-Based</strong></td>
+                            <td>Daytona, DifySandbox, OpenSandbox</td>
+                            <td>Namespace-based (like Docker)</td>
+                        </tr>
+                        <tr class="reveal">
+                            <td><strong>OS-Level</strong></td>
+                            <td>Claude Code, bubblewrap, Seatbelt</td>
+                            <td>Process restriction, no VM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 15: Summary
+         =========================================== -->
+    <section class="slide" id="slide-15">
+        <div class="slide-number">14</div>
+        <div class="nav-breadcrumb reveal">Summary</div>
+        <div class="slide-content">
+            <h2 class="reveal">The One-Sentence Version</h2>
+            <div class="card-accent reveal-card" style="max-width: 800px; padding: clamp(1.5rem, 4vw, 3rem);">
+                <p style="font-size: var(--h3-size); line-height: 1.4; color: var(--text-on-card); font-style: italic;">
+                    "OS sandboxes are a great seatbelt for a solo developer — but if you're building a car rental company, you need each car to be physically separate."
+                </p>
+            </div>
+            <div class="reveal" style="margin-top: var(--content-gap); max-width: 800px;">
+                <h3 style="color: var(--card-bg);">Key Takeaway</h3>
+                <ul class="bullet-list">
+                    <li><strong>Personal use:</strong> Claude Code sandbox (OS-level rules)</li>
+                    <li><strong>Shipping a product:</strong> E2B or CubeSandbox (microVM)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 16: Thank You / Q&A
+         =========================================== -->
+    <section class="slide title-slide" id="slide-16">
+        <div class="slide-number">15</div>
+        <div class="nav-breadcrumb reveal">End</div>
+        <div class="slide-content" style="text-align: center;">
+            <h1 class="reveal">Questions?</h1>
+            <p class="reveal" style="margin-top: var(--content-gap);">Review the full document for more details on advanced topics</p>
+            <p class="reveal muted" style="margin-top: var(--element-gap); font-size: var(--small-size);">
+                bubblewrap vs Docker • Windows AppContainer • eBPF deep-dive
+            </p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         JAVASCRIPT: SLIDE PRESENTATION CONTROLLER
+         =========================================== -->
+    <script>
+        /* ===========================================
+           SLIDE PRESENTATION CONTROLLER
+           Handles navigation, animations, and UI
+           =========================================== */
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll(".slide");
+                this.totalSlides = this.slides.length;
+                this.currentSlide = 0;
+                this.isScrolling = false;
+
+                this.setupIntersectionObserver();
+                this.setupKeyboardNav();
+                this.setupTouchNav();
+                this.setupWheelNav();
+                this.setupProgressBar();
+                this.setupNavDots();
+            }
+
+            /* ===========================================
+               Intersection Observer - Triggers animations
+               =========================================== */
+            setupIntersectionObserver() {
+                const options = {
+                    root: null,
+                    rootMargin: "0px",
+                    threshold: 0.5
+                };
+
+                this.observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                            // Update current slide index
+                            const index = Array.from(this.slides).indexOf(entry.target);
+                            if (index !== -1) {
+                                this.currentSlide = index;
+                                this.updateNavDots();
+                                this.updateProgressBar();
+                            }
+                        }
+                    });
+                }, options);
+
+                this.slides.forEach(slide => {
+                    this.observer.observe(slide);
+                });
+            }
+
+            /* ===========================================
+               Keyboard Navigation
+               =========================================== */
+            setupKeyboardNav() {
+                document.addEventListener("keydown", (e) => {
+                    switch(e.key) {
+                        case "ArrowDown":
+                        case "ArrowRight":
+                        case " ":
+                        case "PageDown":
+                            e.preventDefault();
+                            this.goToSlide(this.currentSlide + 1);
+                            break;
+                        case "ArrowUp":
+                        case "ArrowLeft":
+                        case "PageUp":
+                            e.preventDefault();
+                            this.goToSlide(this.currentSlide - 1);
+                            break;
+                        case "Home":
+                            e.preventDefault();
+                            this.goToSlide(0);
+                            break;
+                        case "End":
+                            e.preventDefault();
+                            this.goToSlide(this.totalSlides - 1);
+                            break;
+                    }
+                });
+            }
+
+            /* ===========================================
+               Touch/Swipe Navigation
+               =========================================== */
+            setupTouchNav() {
+                let startY = 0;
+                let startTime = 0;
+
+                document.addEventListener("touchstart", (e) => {
+                    startY = e.touches[0].clientY;
+                    startTime = Date.now();
+                }, { passive: true });
+
+                document.addEventListener("touchend", (e) => {
+                    const endY = e.changedTouches[0].clientY;
+                    const endTime = Date.now();
+                    const diffY = startY - endY;
+                    const diffTime = endTime - startTime;
+
+                    // Swipe threshold: 50px or 300ms
+                    if (Math.abs(diffY) > 50 && diffTime < 300) {
+                        if (diffY > 0) {
+                            // Swiped up - go next
+                            this.goToSlide(this.currentSlide + 1);
+                        } else {
+                            // Swiped down - go prev
+                            this.goToSlide(this.currentSlide - 1);
+                        }
+                    }
+                }, { passive: true });
+            }
+
+            /* ===========================================
+               Mouse Wheel Navigation
+               =========================================== */
+            setupWheelNav() {
+                let wheelTimeout = null;
+
+                document.addEventListener("wheel", (e) => {
+                    if (this.isScrolling) return;
+
+                    clearTimeout(wheelTimeout);
+                    wheelTimeout = setTimeout(() => {
+                        if (e.deltaY > 0) {
+                            this.goToSlide(this.currentSlide + 1);
+                        } else if (e.deltaY < 0) {
+                            this.goToSlide(this.currentSlide - 1);
+                        }
+                    }, 50);
+                }, { passive: true });
+            }
+
+            /* ===========================================
+               Progress Bar
+               =========================================== */
+            setupProgressBar() {
+                this.progressBar = document.getElementById("progressBar");
+                this.updateProgressBar();
+            }
+
+            updateProgressBar() {
+                const progress = ((this.currentSlide + 1) / this.totalSlides) * 100;
+                this.progressBar.style.width = progress + "%";
+            }
+
+            /* ===========================================
+               Navigation Dots
+               =========================================== */
+            setupNavDots() {
+                this.navDotsContainer = document.getElementById("navDots");
+                // Clear before building (prevents duplicates on re-open)
+                this.navDotsContainer.innerHTML = "";
+
+                for (let i = 0; i < this.totalSlides; i++) {
+                    const dot = document.createElement("div");
+                    dot.className = "nav-dot";
+                    dot.dataset.slide = i;
+                    dot.addEventListener("click", () => {
+                        this.goToSlide(i);
+                    });
+                    this.navDotsContainer.appendChild(dot);
+                }
+
+                this.updateNavDots();
+            }
+
+            updateNavDots() {
+                const dots = this.navDotsContainer.querySelectorAll(".nav-dot");
+                dots.forEach((dot, index) => {
+                    if (index === this.currentSlide) {
+                        dot.classList.add("active");
+                    } else {
+                        dot.classList.remove("active");
+                    }
+                });
+            }
+
+            /* ===========================================
+               Navigate to Specific Slide
+               =========================================== */
+            goToSlide(index) {
+                if (index < 0 || index >= this.totalSlides || this.isScrolling) return;
+
+                this.isScrolling = true;
+                this.currentSlide = index;
+
+                this.slides[index].scrollIntoView({ behavior: "smooth" });
+
+                setTimeout(() => {
+                    this.isScrolling = false;
+                }, 600);
+
+                this.updateNavDots();
+                this.updateProgressBar();
+            }
+        }
+
+        // Initialize the presentation when DOM is ready
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", () => {
+                new SlidePresentation();
+            });
+        } else {
+            new SlidePresentation();
+        }
+    </script>
+</body>
+</html>
